@@ -1,7 +1,7 @@
-import type { Metadata } from "next"
-import { ThemeProvider } from "next-themes"
-import { Inter } from "next/font/google"
-import "./globals.css"
+import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -9,8 +9,8 @@ const inter = Inter({
   variable: "--font-inter",
 })
 
-import { Sidebar } from "@/components/ui/navigation/sidebar"
-import { siteConfig } from "./siteConfig"
+import { Sidebar } from "@/components/ui/navigation/sidebar";
+import { siteConfig } from "./siteConfig";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yoururl.com"),
@@ -51,7 +51,10 @@ export default function RootLayout({
         <div className="mx-auto max-w-screen-2xl">
           <ThemeProvider defaultTheme="system" attribute="class">
             <Sidebar />
-            <main className="lg:pl-72">{children}</main>
+            <main className="lg:pl-72">
+              {children}
+              {/* Add routing or conditional rendering logic to switch between Settings and WorkspaceSettings */}
+            </main>
           </ThemeProvider>
         </div>
       </body>
