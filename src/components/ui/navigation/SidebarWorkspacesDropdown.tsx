@@ -19,8 +19,8 @@ const workspaces = [
     value: "retail-analytics",
     name: "Retail analytics",
     initials: "RA",
-    role: "Member",
-    color: "bg-indigo-600 dark:bg-indigo-500",
+
+    color: "bg-blue-600 dark:bg-blue-500",
   },
   // Add more workspaces...
 ]
@@ -57,7 +57,7 @@ export const WorkspacesDropdownDesktop = () => {
             )}
           >
             <span
-              className="flex aspect-square size-8 items-center justify-center rounded bg-indigo-600 p-2 text-xs font-medium text-white dark:bg-indigo-500"
+              className="flex aspect-square size-8 items-center justify-center rounded bg-blue-600 p-2 text-xs font-medium text-white dark:bg-blue-500"
               aria-hidden="true"
             >
               RA
@@ -67,9 +67,9 @@ export const WorkspacesDropdownDesktop = () => {
                 <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
                   Retail analytics
                 </p>
-                <p className="whitespace-nowrap text-left text-xs text-gray-700 dark:text-gray-300">
+                {/* <p className="whitespace-nowrap text-left text-xs text-gray-700 dark:text-gray-300">
                   Member
-                </p>
+                </p> */}
               </div>
               <RiExpandUpDownLine
                 className="size-5 shrink-0 text-gray-500"
@@ -108,9 +108,9 @@ export const WorkspacesDropdownDesktop = () => {
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
                       {workspace.name}
                     </p>
-                    <p className="text-xs text-gray-700 dark:text-gray-400">
+                    {/* <p className="text-xs text-gray-700 dark:text-gray-400">
                       {workspace.role}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </DropdownMenuItem>
@@ -156,7 +156,7 @@ export const WorkspacesDropdownMobile = () => {
           <button className="flex items-center gap-x-1.5 rounded-md p-2 hover:bg-gray-100 focus:outline-none hover:dark:bg-gray-900">
             <span
               className={cx(
-                "flex aspect-square size-7 items-center justify-center rounded bg-indigo-600 p-2 text-xs font-medium text-white dark:bg-indigo-500",
+                "flex aspect-square size-7 items-center justify-center rounded bg-blue-600 p-2 text-xs font-medium text-white dark:bg-blue-500",
               )}
               aria-hidden="true"
             >
@@ -208,9 +208,9 @@ export const WorkspacesDropdownMobile = () => {
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
                       {workspace.name}
                     </p>
-                    <p className="text-xs text-gray-700 dark:text-gray-300">
+                    {/* <p className="text-xs text-gray-700 dark:text-gray-300">
                       {workspace.role}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </DropdownMenuItem>

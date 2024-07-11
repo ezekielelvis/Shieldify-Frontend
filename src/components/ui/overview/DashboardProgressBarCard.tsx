@@ -66,7 +66,7 @@ export function ProgressBarCard({
         <div>
           <p className="mt-6 text-xs text-gray-500">
             {ctaDescription}{" "}
-            <a href={ctaLink} className="text-indigo-600 dark:text-indigo-400">
+            <a href={ctaLink} className="text-blue-600 dark:text-blue-400">
               {ctaText}
             </a>
           </p>

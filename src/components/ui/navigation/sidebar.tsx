@@ -1,20 +1,25 @@
-"use client"
-import { siteConfig } from "@/app/siteConfig"
-import { cx, focusRing } from "@/lib/utils"
+'use client';
+
+import { siteConfig } from "@/app/siteConfig";
+import { cx, focusRing } from "@/lib/utils";
 import {
   RiHome2Line,
   RiLinkM,
   RiListCheck,
   RiSettings5Line,
-} from "@remixicon/react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import MobileSidebar from "./MobileSidebar"
+} from "@remixicon/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
-  WorkspacesDropdownDesktop,
-  WorkspacesDropdownMobile,
-} from "./SidebarWorkspacesDropdown"
-import { UserProfileDesktop, UserProfileMobile } from "./UserProfile"
+  WorkspacesDropdownDesktop
+} from "./SidebarWorkspacesDropdown";
+import { UserProfileDesktop } from "./UserProfile";
+
+const user = {
+  name: 'Tom Cook',
+  email: 'tom@example.com',
+  imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+};
 
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
@@ -24,43 +29,32 @@ const navigation = [
     href: siteConfig.baseLinks.settings,
     icon: RiSettings5Line,
   },
-] as const
+] as const;
 
 const shortcuts = [
-  {
-    name: "Add new user",
-    href: "#",
-    icon: RiLinkM,
-  },
-  {
-    name: "Workspace usage",
-    href: "#",
-    icon: RiLinkM,
-  },
-  {
-    name: "Cost spend control",
-    href: "#",
-    icon: RiLinkM,
-  },
-  {
-    name: "Overview – Rows written",
-    href: "#",
-    icon: RiLinkM,
-  },
-] as const
+  { name: "Add new user", href: "#", icon: RiLinkM },
+  { name: "Workspace usage", href: "#", icon: RiLinkM },
+  { name: "Cost spend control", href: "#", icon: RiLinkM },
+  { name: "Overview – Rows written", href: "#", icon: RiLinkM },
+] as const;
 
-export function Sidebar() {
-  const pathname = usePathname()
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const isActive = (itemHref: string) => {
     if (itemHref === siteConfig.baseLinks.settings) {
-      return pathname.startsWith("/settings")
+      return pathname.startsWith("/settings");
     }
-    return pathname === itemHref || pathname.startsWith(itemHref)
-  }
+    return pathname === itemHref || pathname.startsWith(itemHref);
+  };
+
   return (
-    <>
+    <div className="flex h-screen">
       {/* sidebar (lg+) */}
-      <nav className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+      <nav className="hidden lg:flex lg:w-72 lg:flex-col">
         <aside className="flex grow flex-col gap-y-6 overflow-y-auto border-r border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-950">
           <WorkspacesDropdownDesktop />
           <nav
@@ -74,7 +68,7 @@ export function Sidebar() {
                     href={item.href}
                     className={cx(
                       isActive(item.href)
-                        ? "text-indigo-600 dark:text-indigo-400"
+                        ? "text-blue-600 dark:text-blue-400"
                         : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
                       "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900",
                       focusRing,
@@ -97,7 +91,7 @@ export function Sidebar() {
                       href={item.href}
                       className={cx(
                         pathname === item.href || pathname.startsWith(item.href)
-                          ? "text-indigo-600 dark:text-indigo-400"
+                          ? "text-blue-600 dark:text-blue-400"
                           : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
                         "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900",
                         focusRing,
@@ -119,14 +113,31 @@ export function Sidebar() {
           </div>
         </aside>
       </nav>
-      {/* top navbar (xs-lg) */}
-      <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-2 shadow-sm sm:gap-x-6 sm:px-4 lg:hidden dark:border-gray-800 dark:bg-gray-950">
-        <WorkspacesDropdownMobile />
-        <div className="flex items-center gap-1 sm:gap-2">
-          <UserProfileMobile />
-          <MobileSidebar />
-        </div>
+      <div className="flex flex-col flex-grow">
+        <header className="flex-shrink-0 bg-white w-full">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex h-16 items-center justify-between">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <img
+                    alt="Your Company"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500"
+                    className="h-8 w-8"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="relative">
+                  <img alt="" src={user.imageUrl} className="h-8 w-8 rounded-full" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <main className="flex-grow p-4 bg-gray-100 dark:bg-gray-900">
+          {children}
+        </main>
       </div>
-    </>
-  )
+    </div>
+  );
 }

@@ -21,7 +21,7 @@ const data = [
     name: 'Training & development',
     amount: 3920,
     share: '18.6%',
-    color: 'bg-indigo-500',
+    color: 'bg-blue-500',
   },
   {
     name: 'Office supplies',
@@ -54,7 +54,7 @@ export function DonutChartCard() {
         index="name"
         valueFormatter={currencyFormatter}
         showTooltip={true}
-        colors={['cyan', 'blue', 'indigo', 'violet', 'fuchsia']}
+        colors={['cyan', 'blue', 'blue', 'violet', 'fuchsia']}
       />
       <p className="mt-8 flex items-center justify-between text-tremor-label text-tremor-content dark:text-dark-tremor-content">
         <span>Category</span>
