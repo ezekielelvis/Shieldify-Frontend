@@ -1,20 +1,25 @@
-"use client"
-import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard"
-import { ChartCard } from "@/components/ui/overview/DashboardChartCard"
-import { Filterbar } from "@/components/ui/overview/DashboardFilterbar"
-import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard"
-import { overviews } from "@/data/overview-data"
-import { OverviewData } from "@/data/schema"
-import { cx } from "@/lib/utils"
-import { subDays, toDate } from "date-fns"
-import React from "react"
-import { DateRange } from "react-day-picker"
+"use client";
+import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard";
+import { ChartCard } from "@/components/ui/overview/DashboardChartCard";
+import { ChartComposition } from "@/components/ui/overview/DashboardChartComposition";
+import { Filterbar } from "@/components/ui/overview/DashboardFilterbar";
+import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard";
+import { overviews } from "@/data/overview-data";
+import { OverviewData } from "@/data/schema";
+import { cx } from "@/lib/utils";
+import { subDays, toDate } from "date-fns";
+import React from "react";
+import { DateRange } from "react-day-picker";
 
-export type PeriodValue = "previous-period" | "last-year" | "no-comparison"
+export type PeriodValue = "previous-period" | "last-year" | "no-comparison";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const categories: {
-  title: keyof OverviewData
-  type: "currency" | "unit"
+  title: keyof OverviewData;
+  type: "currency" | "unit";
 }[] = [
   {
     title: "Rows read",
@@ -40,15 +45,15 @@ const categories: {
     title: "Logins",
     type: "unit",
   },
-]
+];
 
 export type KpiEntry = {
-  title: string
-  percentage: number
-  current: number
-  allowed: number
-  unit?: string
-}
+  title: string;
+  percentage: number;
+  current: number;
+  allowed: number;
+  unit?: string;
+};
 
 const data: KpiEntry[] = [
   {
@@ -72,7 +77,7 @@ const data: KpiEntry[] = [
     allowed: 20,
     unit: "GB",
   },
-]
+];
 
 const data2: KpiEntry[] = [
   {
@@ -95,15 +100,12 @@ const data2: KpiEntry[] = [
     allowed: 100,
     unit: "%",
   },
-]
+];
 
-export type KpiEntryExtended = Omit<
-  KpiEntry,
-  "current" | "allowed" | "unit"
-> & {
-  value: string
-  color: string
-}
+export type KpiEntryExtended = Omit<KpiEntry, "current" | "allowed" | "unit"> & {
+  value: string;
+  color: string;
+};
 
 const data3: KpiEntryExtended[] = [
   {
@@ -124,25 +126,34 @@ const data3: KpiEntryExtended[] = [
     value: "$31.9",
     color: "bg-gray-400 dark:bg-gray-600",
   },
-]
+];
 
-const overviewsDates = overviews.map((item) => toDate(item.date).getTime())
-const maxDate = toDate(Math.max(...overviewsDates))
+const overviewsDates = overviews.map((item) => toDate(item.date).getTime());
+const maxDate = toDate(Math.max(...overviewsDates));
 
 export default function Overview() {
-  const [selectedDates, setSelectedDates] = React.useState<
-    DateRange | undefined
-  >({
+  const [selectedDates, setSelectedDates] = React.useState<DateRange | undefined>({
     from: subDays(maxDate, 30),
     to: maxDate,
-  })
+  });
 
   return (
     <>
       <section aria-labelledby="current-billing-cycle">
+        <div className="flex justify-between items-center mb-4">
+          <div>
+            <p className="text-lg font-bold">Workspace Details</p>
+            <p className="text-sm text-gray-600">Workspace Name: Retail Analytics</p>
+          </div>
+          <div className="flex space-x-2 flex-col items-end">
+            <p className="text-sm text-gray-600">Workspace ID: RA-12345</p>
+            <p className="text-sm text-gray-600">Workspace Key: retail-analytics-2023</p>
+          </div>
+        </div>
+
         <h1
           id="current-billing-cycle"
-          className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+          className="scroll-mt-10 text-md font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
           Current billing cycle
         </h1>
@@ -195,24 +206,27 @@ export default function Overview() {
             onDatesChange={(dates) => setSelectedDates(dates)}
           />
         </div>
-        <dl
-          className={cx(
-            "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
-          )}
-        >
-          {categories.map((category) => {
-            return (
-              <ChartCard
-                key={category.title}
-                title={category.title}
-                type={category.type}
-                selectedDates={selectedDates}
-                selectedPeriod={"last-year"}
-              />
-            )
-          })}
+        <dl className={cx("mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3")}>
+          {categories.map((category) => (
+            <ChartCard
+              key={category.title}
+              title={category.title}
+              type={category.type}
+              selectedDates={selectedDates}
+              selectedPeriod="last-year"
+            />
+          ))}
         </dl>
       </section>
+      <section aria-labelledby="chart-composition">
+        <h1
+          id="chart-composition"
+          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+        >
+          Chart Composition
+        </h1>
+        <ChartComposition />
+      </section>
     </>
-  )
+  );
 }

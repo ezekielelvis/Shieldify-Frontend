@@ -1,30 +1,15 @@
 'use client';
 
-import {
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeaderCell,
-  TableRow,
-  Text,
-} from '@tremor/react';
-import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
+import { Text } from '@tremor/react';
+import Link from 'next/link';
 
-// Helper function to combine class names
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 const workspaces = [
   {
-    workspace: 'sales_by_day_api',
+    workspace: 'sales_by_day',
     owner: 'John Doe',
     status: 'live',
     costs: '$3,509.00',
@@ -106,156 +91,58 @@ const workspaces = [
   },
 ];
 
-const workspacesColumns = [
-  {
-    header: 'Workspace',
-    accessorKey: 'workspace',
-    enableSorting: true,
-    meta: {
-      align: 'text-left',
-    },
-  },
-  {
-    header: 'Owner',
-    accessorKey: 'owner',
-    enableSorting: true,
-    meta: {
-      align: 'text-left',
-    },
-  },
-  {
-    header: 'Status',
-    accessorKey: 'status',
-    enableSorting: false,
-    meta: {
-      align: 'text-left',
-    },
-  },
-  {
-    header: 'Last edited',
-    accessorKey: 'lastEdited',
-    enableSorting: false,
-    meta: {
-      align: 'text-right',
-    },
-  },
-];
-
 export default function Example() {
-  const table = useReactTable({
-    data: workspaces,
-    columns: workspacesColumns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    initialState: {
-      sorting: [
-        {
-          id: 'workspace',
-          desc: false,
-        },
-      ],
-    },
-  });
+  const getInitials = (name) => {
+    return name
+      .split('_')
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase();
+  };
+
+  const getStatusStyles = (status) => {
+    switch (status) {
+      case 'live':
+        return 'bg-green-100 text-green-700';
+      case 'inactive':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'error':
+        return 'bg-red-100 text-red-700';
+      default:
+        return '';
+    }
+  };
 
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
         <div>
-          <Text className="text-lg font-bold">Workspace Details</Text>
-          <Text className="text-sm text-gray-600">Workspace Name: Retail Analytics</Text>
-        </div>
-        <div className="flex space-x-2 flex-col items-end">
-          <Text className="text-sm text-gray-600">Workspace ID: RA-12345</Text>
-          <Text className="text-sm text-gray-600">Workspace Key: retail-analytics-2023</Text>
+          <Text className="text-xl font-bold">Workspaces</Text>
         </div>
       </div>
-
-      <Table className="text-sm w-full">
-        <TableHead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={headerGroup.id}
-              className="border-b border-tremor-border dark:border-dark-tremor-border"
+      <div className="flex flex-col gap-6">
+        {workspaces.map((workspace) => (
+          <Link key={workspace.workspace} href={`/overview/${workspace.workspace}`}>
+            <div
+              className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer flex items-center w-full"
             >
-              {headerGroup.headers.map((header) => (
-                <TableHeaderCell
-                  key={header.id}
-                  onClick={header.column.getToggleSortingHandler()}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                      header.column.getToggleSortingHandler()(event);
-                    }
-                  }}
-                  className={classNames(
-                    header.column.getCanSort()
-                      ? 'cursor-pointer select-none'
-                      : '',
-                    'px-2 py-2',
-                  )}
-                  tabIndex={header.column.getCanSort() ? 0 : -1}
-                  aria-sort={header.column.getIsSorted()}
-                >
-                  <div
-                    className={classNames(
-                      header.column.columnDef.enableSorting === true
-                        ? 'flex items-center justify-between gap-2 hover:bg-tremor-background-muted hover:dark:bg-dark-tremor-background-muted'
-                        : header.column.columnDef.meta.align,
-                      'rounded-tremor-default px-3 py-2',
-                    )}
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext(),
-                    )}
-                    {header.column.getCanSort() ? (
-                      <div className="-space-y-1">
-                        <RiArrowUpSLine
-                          className={classNames(
-                            'h-4 w-4 text-tremor-content-strong dark:text-dark-tremor-content-strong',
-                            header.column.getIsSorted() === 'desc'
-                              ? 'opacity-30'
-                              : '',
-                          )}
-                          aria-hidden={true}
-                        />
-                        <RiArrowDownSLine
-                          className={classNames(
-                            'h-4 w-4 text-tremor-content-strong dark:text-dark-tremor-content-strong',
-                            header.column.getIsSorted() === 'asc'
-                              ? 'opacity-30'
-                              : '',
-                          )}
-                          aria-hidden={true}
-                        />
-                      </div>
-                    ) : null}
-                  </div>
-                </TableHeaderCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell
-                  key={cell.id}
-                  className={classNames(
-                    'px-2 py-2',
-                    cell.column.columnDef.meta?.align,
-                    cell.column.id === 'status' && cell.getValue() === 'live' && 'text-green-600',
-                    cell.column.id === 'status' && cell.getValue() === 'inactive' && 'text-yellow-600',
-                    cell.column.id === 'status' && cell.getValue() === 'error' && 'text-red-600',
-                  )}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+              <div className="flex-shrink-0 w-12 h-12 bg-blue-600 text-white flex items-center justify-center rounded-md mr-4">
+                <Text className="font-bold text-lg">{getInitials(workspace.workspace)}</Text>
+              </div>
+              <div className="flex-grow">
+                <Text className="font-bold text-md dark:text-white">{workspace.workspace}</Text>
+                <Text className="text-md text-gray-600 dark:text-gray-400">{workspace.owner}</Text>
+              </div>
+              <div className="text-center">
+                <Text className="text-md text-gray-600 dark:text-gray-400">{workspace.lastEdited}</Text>
+                <div className={classNames('p-1 rounded-md text-sm font-medium', getStatusStyles(workspace.status))}>
+                  {workspace.status}
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
