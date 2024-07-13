@@ -1,15 +1,9 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  redirects: async () => {
-    return [
-      {
-        source: "/",
-        destination: "/overview",
-        permanent: true,
-      },
-    ];
+  images: {
+    domains: ["images.unsplash.com"],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

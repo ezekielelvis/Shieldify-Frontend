@@ -1,148 +1,121 @@
-'use client';
+import { FaArrowRight } from "react-icons/fa" // Import Font Awesome icon
 
-import { Text } from '@tremor/react';
-import Link from 'next/link';
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
+interface Person {
+  name: string
+  email: string
+  role: string
+  workspaceStatus: "online" | "busy" | "away" | "offline"
 }
 
-const workspaces = [
+const people: Person[] = [
   {
-    workspace: 'sales_by_day',
-    owner: 'John Doe',
-    status: 'live',
-    costs: '$3,509.00',
-    region: 'US-West 1',
-    capacity: '99%',
-    lastEdited: '23/09/2023 13:00',
+    name: "Leslie Alexander",
+    email: "leslie.alexander@example.com",
+    role: "Co-Founder / CEO",
+    workspaceStatus: "online",
   },
   {
-    workspace: 'marketing_campaign',
-    owner: 'Jane Smith',
-    status: 'live',
-    costs: '$5,720.00',
-    region: 'US-East 2',
-    capacity: '80%',
-    lastEdited: '22/09/2023 10:45',
+    name: "Michael Foster",
+    email: "michael.foster@example.com",
+    role: "Co-Founder / CTO",
+    workspaceStatus: "busy",
   },
   {
-    workspace: 'sales_campaign',
-    owner: 'Jane Smith',
-    status: 'live',
-    costs: '$5,720.00',
-    region: 'US-East 2',
-    capacity: '80%',
-    lastEdited: '22/09/2023 10:45',
+    name: "Dries Vincent",
+    email: "dries.vincent@example.com",
+    role: "Business Relations",
+    workspaceStatus: "away",
   },
   {
-    workspace: 'development_env',
-    owner: 'Mike Johnson',
-    status: 'live',
-    costs: '$4,200.00',
-    region: 'EU-West 1',
-    capacity: '60%',
-    lastEdited: '21/09/2023 14:30',
+    name: "Lindsay Walton",
+    email: "lindsay.walton@example.com",
+    role: "Front-end Developer",
+    workspaceStatus: "offline",
   },
   {
-    workspace: 'new_workspace_1',
-    owner: 'Alice Brown',
-    status: 'live',
-    costs: '$2,100.00',
-    region: 'US-West 2',
-    capacity: '75%',
-    lastEdited: '24/09/2023 09:15',
+    name: "Courtney Henry",
+    email: "courtney.henry@example.com",
+    role: "Designer",
+    workspaceStatus: "online",
   },
   {
-    workspace: 'test_environment',
-    owner: 'David Clark',
-    status: 'inactive',
-    costs: '$800.00',
-    region: 'EU-Central 1',
-    capacity: '40%',
-    lastEdited: '25/09/2023 16:20',
+    name: "Tom Cook",
+    email: "tom.cook@example.com",
+    role: "Director of Product",
+    workspaceStatus: "busy",
   },
-  {
-    workspace: 'analytics_dashboard',
-    owner: 'Sarah Wilson',
-    status: 'live',
-    costs: '$6,500.00',
-    region: 'US-West 1',
-    capacity: '90%',
-    lastEdited: '26/09/2023 11:30',
-  },
-  {
-    workspace: 'research_project',
-    owner: 'Michael Adams',
-    status: 'live',
-    costs: '$3,900.00',
-    region: 'US-East 1',
-    capacity: '70%',
-    lastEdited: '27/09/2023 08:45',
-  },
-  {
-    workspace: 'training_environment',
-    owner: 'Laura White',
-    status: 'live',
-    costs: '$2,500.00',
-    region: 'EU-North 1',
-    capacity: '55%',
-    lastEdited: '28/09/2023 12:15',
-  },
-];
+]
 
-export default function Example() {
-  const getInitials = (name) => {
-    return name
-      .split('_')
-      .map((word) => word[0])
-      .join('')
-      .toUpperCase();
-  };
+const getInitials = (name: string) => {
+  const initials = name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+  return initials.slice(0, 2)
+}
 
-  const getStatusStyles = (status) => {
-    switch (status) {
-      case 'live':
-        return 'bg-green-100 text-green-700';
-      case 'inactive':
-        return 'bg-yellow-100 text-yellow-700';
-      case 'error':
-        return 'bg-red-100 text-red-700';
-      default:
-        return '';
-    }
-  };
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case "online":
+      return "bg-emerald-500"
+    case "busy":
+      return "bg-red-500"
+    case "away":
+      return "bg-yellow-500"
+    case "offline":
+      return "bg-gray-500"
+    default:
+      return "bg-gray-500"
+  }
+}
 
+const PeopleList: React.FC = () => {
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <Text className="text-xl font-bold">Workspaces</Text>
-        </div>
-      </div>
-      <div className="flex flex-col gap-6">
-        {workspaces.map((workspace) => (
-          <Link key={workspace.workspace} href={`/overview/${workspace.workspace}`}>
-            <div
-              className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer flex items-center w-full"
-            >
-              <div className="flex-shrink-0 w-12 h-12 bg-blue-600 text-white flex items-center justify-center rounded-md mr-4">
-                <Text className="font-bold text-lg">{getInitials(workspace.workspace)}</Text>
-              </div>
-              <div className="flex-grow">
-                <Text className="font-bold text-md dark:text-white">{workspace.workspace}</Text>
-                <Text className="text-md text-gray-600 dark:text-gray-400">{workspace.owner}</Text>
-              </div>
-              <div className="text-center">
-                <Text className="text-md text-gray-600 dark:text-gray-400">{workspace.lastEdited}</Text>
-                <div className={classNames('p-1 rounded-md text-sm font-medium', getStatusStyles(workspace.status))}>
-                  {workspace.status}
+    <ul role="list" className="divide-y divide-gray-100 dark:divide-gray-700">
+      {people.map((person) => (
+        <li key={person.email} className="flex justify-between gap-x-6 py-5">
+          <div className="flex min-w-0 gap-x-4">
+            <div className="flex h-12 w-12 flex-none items-center justify-center rounded-md bg-blue-500 text-lg font-semibold text-white">
+              {getInitials(person.name)}
+            </div>
+            <div className="min-w-0 flex-auto">
+              <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-100">
+                {person.name}
+              </p>
+              <p className="mt-1 truncate text-xs leading-5 text-gray-500 dark:text-gray-400">
+                {person.email}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-row">
+            <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+              <p className="text-sm leading-6 text-gray-900 dark:text-gray-100">
+                {person.role}
+              </p>
+              <div className="mt-1 flex items-center gap-x-1.5">
+                <div
+                  className={`flex-none rounded-full p-1 ${getStatusColor(person.workspaceStatus)}/20`}
+                >
+                  <div
+                    className={`h-1.5 w-1.5 rounded-full ${getStatusColor(person.workspaceStatus)}`}
+                  />
                 </div>
+                <p className="text-xs leading-5 text-gray-500 dark:text-gray-400">
+                  {person.workspaceStatus.charAt(0).toUpperCase() +
+                    person.workspaceStatus.slice(1)}
+                </p>
               </div>
             </div>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
+            <div className="m-5 flex items-center">
+              <a href="#" className="text-blue-500 hover:text-blue-700">
+                <FaArrowRight />
+              </a>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
 }
+
+export default PeopleList

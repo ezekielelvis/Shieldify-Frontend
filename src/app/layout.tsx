@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
-import { ThemeProvider } from "next-themes";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from "next"
+import { ThemeProvider } from "next-themes"
+import { Inter } from "next/font/google"
+import "./globals.css"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -9,8 +9,7 @@ const inter = Inter({
   variable: "--font-inter",
 })
 
-import Sidebar from "@/components/ui/navigation/sidebar";
-import { siteConfig } from "./siteConfig";
+import { siteConfig } from "./siteConfig"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yoururl.com"),
@@ -32,6 +31,11 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     siteName: siteConfig.name,
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Tremor OSS Dashboard",
+    creator: '@tremorlabs',
+  },
   icons: {
     icon: "/favicon.ico",
   },
@@ -45,17 +49,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} overflow-y-scroll scroll-auto antialiased selection:bg-indigo-100 selection:text-indigo-700 dark:bg-gray-950`}
+        className={`${inter.className} overflow-y-scroll scroll-auto antialiased selection:bg-blue-100 selection:text-blue-700 dark:bg-gray-950`}
         suppressHydrationWarning
       >
-        <div className="mx-auto max-w-screen-2xl">
+        <div className="mx-auto w-screen">
           <ThemeProvider defaultTheme="system" attribute="class">
-            <Sidebar />
-            <main className="lg:pl-72">
-              {children}
-              {/* Add routing or conditional rendering logic to switch between Settings and WorkspaceSettings */}
-            </main>
-          </ThemeProvider>
+           <div>
+            {children}
+           </div>
+           </ThemeProvider>
         </div>
       </body>
     </html>

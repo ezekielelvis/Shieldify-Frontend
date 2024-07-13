@@ -118,7 +118,7 @@ const data3: KpiEntryExtended[] = [
     title: "On-demand charges",
     percentage: 20.8,
     value: "$61.1",
-    color: "bg-purple-600 dark:bg-blue-500",
+    color: "bg-blue-600 dark:bg-blue-500",
   },
   {
     title: "Caching",

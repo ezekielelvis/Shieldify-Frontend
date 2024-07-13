@@ -1,13 +1,21 @@
-export default function Layout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <div className="relative">
-      <main className="p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-7">
-        {children}
-      </main>
-    </div>
-  )
+import { Sidebar } from "@/components/ui/navigation/sidebar";
+
+interface HomePageProps{
+    children: React.ReactNode
 }
+
+const HomeLayout=({
+    children
+}:HomePageProps)=>{
+    return(
+        <div className="mx-auto max-w-screen-2xl">
+        
+          <Sidebar />
+          <main className="lg:pl-72">{children}</main>
+       
+      </div>
+    )
+}
+
+
+export default HomeLayout;
