@@ -107,7 +107,7 @@ const PeopleList: React.FC = () => {
               </div>
             </div>
             <div className="m-5 flex items-center">
-              <a href="#" className="text-blue-500 hover:text-blue-700">
+              <a href="/overview" className="text-blue-500 hover:text-blue-700">
                 <FaArrowRight />
               </a>
             </div>
