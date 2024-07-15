@@ -206,14 +206,6 @@ export default function Overview() {
         >
           Overview
         </h1>
-        {/* <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8 dark:border-gray-800 dark:bg-gray-950">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-          />
-        </div> */}
         <dl
           className={cx(
             "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",

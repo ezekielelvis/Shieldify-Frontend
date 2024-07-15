@@ -251,13 +251,13 @@ export default function Settings() {
                   htmlFor="delete-workspace"
                   className="mt-6 block text-xs font-medium text-gray-800 dark:text-white"
                 >
-                  Confirm password
+                  Confirm workspace test key
                 </label>
                 <TextInput
                   id="delete-workspace"
                   name="delete-workspace"
-                  type="password"
-                  placeholder="Password"
+                  type="text"
+                  placeholder="Workspace Test key"
                   className="mt-2 w-full rounded-lg dark:border-gray-600 dark:bg-gray-700"
                 />
                 <button

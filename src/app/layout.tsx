@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { ThemeProvider } from "next-themes"
 import { Inter } from "next/font/google"
 import "./globals.css"
 
@@ -53,9 +52,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <div className="mx-auto w-screen">
-          <ThemeProvider defaultTheme="light" attribute="class">
-            <div>{children}</div>
-          </ThemeProvider>
+          <div>{children}</div>
         </div>
       </body>
     </html>
