@@ -2,10 +2,9 @@
 import { siteConfig } from "@/app/siteConfig";
 import { cx, focusRing } from "@/lib/utils";
 import {
-  RiHome2Line,
   RiLinkM,
   RiListCheck,
-  RiSettings5Line,
+  RiSettings5Line
 } from "@remixicon/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +17,7 @@ import {
 import { UserProfileDesktop } from "./UserProfile";
 
 const navigation = [
-  { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
+  // { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
   { name: "Details", href: siteConfig.baseLinks.details, icon: RiListCheck },
   {
     name: "Settings",

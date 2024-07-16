@@ -575,3 +575,129 @@ export const usage: Usage[] = [
     lastEdited: "01/01/2022 16:18",
   },
 ]
+
+export const data = {
+  id: "80a0a8bd-74a1-46bf-ae2b-53d89b16733e",
+  project_key: "test-repo",
+  analysis_result: {
+    issues: {
+      total: 3,
+      issues: [
+        {
+          line: 21,
+          type: "CODE_SMELL",
+          effort: "5min",
+          message: "A form label must be associated with a control.",
+          severity: "MINOR",
+          component: "test-repo:src/components/Header.jsx",
+        },
+        {
+          line: 47,
+          type: "CODE_SMELL",
+          effort: "5min",
+          message:
+            "Redundant alt attribute. Screen-readers already announce img tags as an image. You don\\u8217t need to use the words image, photo, or picture (or any specified custom words) in the alt prop.",
+          severity: "MINOR",
+          component: "test-repo:src/components/Header.jsx",
+        },
+        {
+          line: 11,
+          type: "CODE_SMELL",
+          effort: "5min",
+          message:
+            "The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles.",
+          severity: "MAJOR",
+          component: "test-repo:src/components/SideBar.jsx",
+        },
+      ],
+    },
+    metrics: {
+      bugs: "0",
+      files: "14",
+      ncloc: "266",
+      classes: "0",
+      coverage: "0.0",
+      functions: "8",
+      complexity: "9",
+      code_smells: "3",
+      open_issues: "3",
+      sqale_index: "15",
+      line_coverage: "0.0",
+      lines_to_cover: "9",
+      security_rating: "1.0",
+      uncovered_lines: "9",
+      vulnerabilities: "0",
+      confirmed_issues: "0",
+      sqale_debt_ratio: "0.2",
+      security_hotspots: "5",
+      reliability_rating: "1.0",
+      cognitive_complexity: "0",
+      comment_lines_density: "0.7",
+      false_positive_issues: "0",
+      security_review_rating: "5.0",
+      duplicated_lines_density: "0.0",
+      security_remediation_effort: "0",
+      reliability_remediation_effort: "0",
+    },
+    hotspots: {
+      hotspots: [
+        {
+          line: 18,
+          status: "TO_REVIEW",
+          message:
+            "Make sure that 'javascript:' code is safe as it is a form of eval().",
+          component: "test-repo:src/components/SideBar.jsx",
+          vulnerabilityProbability: "MEDIUM",
+        },
+        {
+          line: 31,
+          status: "TO_REVIEW",
+          message:
+            "Make sure that 'javascript:' code is safe as it is a form of eval().",
+          component: "test-repo:src/components/SideBar.jsx",
+          vulnerabilityProbability: "MEDIUM",
+        },
+        {
+          line: 45,
+          status: "TO_REVIEW",
+          message:
+            "Make sure that 'javascript:' code is safe as it is a form of eval().",
+          component: "test-repo:src/components/SideBar.jsx",
+          vulnerabilityProbability: "MEDIUM",
+        },
+        {
+          line: 60,
+          status: "TO_REVIEW",
+          message:
+            "Make sure that 'javascript:' code is safe as it is a form of eval().",
+          component: "test-repo:src/components/SideBar.jsx",
+          vulnerabilityProbability: "MEDIUM",
+        },
+        {
+          line: 74,
+          status: "TO_REVIEW",
+          message:
+            "Make sure that 'javascript:' code is safe as it is a form of eval().",
+          component: "test-repo:src/components/SideBar.jsx",
+          vulnerabilityProbability: "MEDIUM",
+        },
+      ],
+    },
+    qualityGate: {
+      status: "OK",
+      conditions: [
+        {
+          value: "0",
+          metric: "new_violations",
+          status: "OK",
+          operator: "GT",
+          errorThreshold: "0",
+        },
+      ],
+    },
+  },
+  created_at: "2024-07-14T23:03:07.049Z",
+  updated_at: "2024-07-15T18:47:57.808Z",
+  repository_id: "1dafa81a-6b07-41c6-b370-51d1442702a9",
+}
+
