@@ -1,6 +1,6 @@
-"use client";
-import { siteConfig } from "@/app/siteConfig";
-import { cx, focusRing } from "@/lib/utils";
+"use client"
+import { siteConfig } from "@/app/siteConfig"
+import { cx, focusRing } from "@/lib/utils"
 import {
   RiLinkM,
   RiListCheck,
@@ -24,7 +24,7 @@ const navigation = [
     href: siteConfig.baseLinks.settings,
     icon: RiSettings5Line,
   },
-] as const;
+] as const
 
 const shortcuts = [
   {
@@ -47,42 +47,43 @@ const shortcuts = [
     href: "#",
     icon: RiLinkM,
   },
-] as const;
+] as const
 
 const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl: '', // No image URL provided
-};
+  name: "Tom Cook",
+  email: "tom@example.com",
+  imageUrl: "", // No image URL provided
+}
 
 // Helper function to get user initials
 const getInitials = (name) => {
-  const nameParts = name.split(' ');
-  return nameParts.map(part => part[0]).join('');
-};
+  const nameParts = name.split(" ")
+  return nameParts.map((part) => part[0]).join("")
+}
 
 // Helper function to generate greeting based on current time
 const getGreeting = (name) => {
-  const hours = new Date().getHours();
-  const timeOfDay = hours < 12 ? "morning" : hours < 18 ? "afternoon" : "evening";
-  const emoji = hours < 12 ? "🌅" : hours < 18 ? "☀️" : "🌙";
-  return `Good ${timeOfDay}, ${name} ${emoji}`;
-};
+  const hours = new Date().getHours()
+  const timeOfDay =
+    hours < 12 ? "morning" : hours < 18 ? "afternoon" : "evening"
+  const emoji = hours < 12 ? "🌅" : hours < 18 ? "☀️" : "🌙"
+  return `Good ${timeOfDay}, ${name} ${emoji}`
+}
 
 export function Sidebar() {
-  const pathname = usePathname();
+  const pathname = usePathname()
   const isActive = (itemHref: string) => {
     if (itemHref === siteConfig.baseLinks.settings) {
-      return pathname.startsWith("/settings");
+      return pathname.startsWith("/settings")
     }
-    return pathname === itemHref || pathname.startsWith(itemHref);
-  };
+    return pathname === itemHref || pathname.startsWith(itemHref)
+  }
 
-  const [greeting, setGreeting] = useState("");
+  const [greeting, setGreeting] = useState("")
 
   useEffect(() => {
-    setGreeting(getGreeting(user.name));
-  }, []);
+    setGreeting(getGreeting(user.name))
+  }, [])
 
   return (
     <>
@@ -104,7 +105,7 @@ export function Sidebar() {
                         ? "text-blue-600 dark:text-blue-400"
                         : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
                       "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900",
-                      focusRing
+                      focusRing,
                     )}
                   >
                     <item.icon className="size-4 shrink-0" aria-hidden="true" />
@@ -123,12 +124,11 @@ export function Sidebar() {
                     <Link
                       href={item.href}
                       className={cx(
-                        pathname === item.href ||
-                          pathname.startsWith(item.href)
+                        pathname === item.href || pathname.startsWith(item.href)
                           ? "text-blue-600 dark:text-blue-400"
                           : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
                         "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900",
-                        focusRing
+                        focusRing,
                       )}
                     >
                       <item.icon
@@ -148,13 +148,13 @@ export function Sidebar() {
         </aside>
       </nav>
       {/* top navbar (right side) */}
-      <div className="lg:ml-72 flex flex-col">
+      <div className="flex flex-col lg:ml-72">
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-4 shadow-sm dark:border-gray-800 dark:bg-gray-950">
           <Image src={logo} alt="Logo" width={40} height={40} />
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium ">{greeting}</span>
+            <span className="text-sm font-medium">{greeting}</span>
             {user.imageUrl ? (
-              <div className="relative w-10 h-10">
+              <div className="relative h-10 w-10">
                 <Image
                   src={user.imageUrl}
                   alt="User Avatar"
@@ -164,7 +164,7 @@ export function Sidebar() {
                 />
               </div>
             ) : (
-              <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white">
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
                 {getInitials(user.name)}
               </div>
             )}
@@ -172,5 +172,5 @@ export function Sidebar() {
         </div>
       </div>
     </>
-  );
+  )
 }

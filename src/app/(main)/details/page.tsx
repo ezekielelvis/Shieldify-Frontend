@@ -122,10 +122,12 @@ const PeopleList = async() => {
                 </a>
               </div>
             </div>
+
           </li>
         ))}
       </ul>
     </>
+
   )
 }
 

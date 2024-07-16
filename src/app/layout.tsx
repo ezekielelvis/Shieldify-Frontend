@@ -53,7 +53,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <div className="mx-auto w-screen">
-          <ThemeProvider defaultTheme="system" attribute="class">
+          <ThemeProvider defaultTheme="light" attribute="class">
             <div>{children}</div>
           </ThemeProvider>
         </div>

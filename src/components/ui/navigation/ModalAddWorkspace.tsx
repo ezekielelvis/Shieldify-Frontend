@@ -1,10 +1,8 @@
-import { Badge } from "@/components/Badge"
 import { Button } from "@/components/Button"
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -13,18 +11,6 @@ import {
 import { DropdownMenuItem } from "@/components/Dropdown"
 import { Input } from "@/components/Input"
 import { Label } from "@/components/Label"
-import {
-  RadioCardGroup,
-  RadioCardGroupIndicator,
-  RadioCardItem,
-} from "@/components/RadioCard"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/Select"
 
 export const databases: {
   label: string
@@ -80,9 +66,9 @@ export function ModalAddWorkspace({
           <form>
             <DialogHeader>
               <DialogTitle>Add new workspace</DialogTitle>
-              <DialogDescription className="mt-1 text-sm leading-6">
+              {/* <DialogDescription className="mt-1 text-sm leading-6">
                 With free plan, you can add up to 10 workspaces.
-              </DialogDescription>
+              </DialogDescription> */}
               <div className="mt-4 grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="workspace-name" className="font-medium">
@@ -97,56 +83,48 @@ export function ModalAddWorkspace({
                 </div>
                 <div>
                   <Label htmlFor="starter-kit" className="font-medium">
-                    Starter kit
+                    Test key
                   </Label>
-                  <Select defaultValue="empty-workspace">
-                    <SelectTrigger
-                      id="starter-kit"
-                      name="starter-kit"
-                      className="mt-2"
-                    >
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="empty-workspace">
-                        None - Empty workspace
-                      </SelectItem>
-                      <SelectItem value="commerce-analytics">
-                        Commerce analytics
-                      </SelectItem>
-                      <SelectItem value="product-analytics">
-                        Product analytics
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Input
+                    id="Test-key"
+                    name="Test-key"
+                    placeholder="Test-key"
+                    className="mt-2"
+                  />
                 </div>
                 <div className="col-span-full">
                   <Label htmlFor="database-region" className="font-medium">
-                    Database region
+                    Github Repository URL
                   </Label>
-                  <Select defaultValue="europe-west-01">
-                    <SelectTrigger
-                      id="database-region"
-                      name="database-region"
-                      className="mt-2"
-                    >
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="europe-west-01">
-                        europe-west-01
-                      </SelectItem>
-                      <SelectItem value="us-east-02">us-east-02</SelectItem>
-                      <SelectItem value="us-west-01">us-west-01</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <p className="mt-2 text-xs text-gray-500">
+                  <Input
+                    id="repo-url"
+                    name="repo-rl"
+                    placeholder="Github Repository URL"
+                    className="mt-2"
+                  />
+                  {/* <p className="mt-2 text-xs text-gray-500">
                     For best performance, choose a region closest to your
                     application.
-                  </p>
+                  </p> */}
+                </div>
+                <div className="col-span-full">
+                  <Label htmlFor="database-region" className="font-medium">
+                    Github Secret Key/Token
+                  </Label>
+                  <Input
+                    type="password"
+                    id="github-key"
+                    name="github-key"
+                    placeholder="Github Secret Key/Token"
+                    className="mt-2"
+                  />
+                  {/* <p className="mt-2 text-xs text-gray-500">
+                    For best performance, choose a region closest to your
+                    application.
+                  </p> */}
                 </div>
               </div>
-              <div className="mt-4">
+              {/* <div className="mt-4">
                 <Label htmlFor="database" className="font-medium">
                   Database configuration
                 </Label>
@@ -177,7 +155,7 @@ export function ModalAddWorkspace({
                     </RadioCardItem>
                   ))}
                 </RadioCardGroup>
-              </div>
+              </div> */}
             </DialogHeader>
             <DialogFooter className="mt-6">
               <DialogClose asChild>
@@ -190,7 +168,7 @@ export function ModalAddWorkspace({
               </DialogClose>
               <DialogClose asChild>
                 <Button type="submit" className="w-full sm:w-fit">
-                  Add workspace
+                  Add workspace and Test
                 </Button>
               </DialogClose>
             </DialogFooter>

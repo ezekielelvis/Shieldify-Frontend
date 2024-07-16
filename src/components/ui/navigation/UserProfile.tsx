@@ -18,12 +18,12 @@ export const UserProfileDesktop = () => {
         )}
       >
         <span className="flex items-center gap-3">
-          <span
+          {/* <span
             className="flex size-8 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white text-xs text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300"
             aria-hidden="true"
           >
             ES
-          </span>
+          </span> */}
           <span>Emma Stone</span>
         </span>
         <RiMore2Fill
