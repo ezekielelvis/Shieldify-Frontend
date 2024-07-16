@@ -1,7 +1,6 @@
 import { Badge } from "@/components/Badge"
 import { cx } from "@/lib/utils"
 
-import type { KpiEntryExtended } from "@/app/(main)/overview/page"
 
 export type CardProps = {
   title: string
@@ -12,7 +11,7 @@ export type CardProps = {
   ctaDescription: string
   ctaText: string
   ctaLink: string
-  data: KpiEntryExtended[]
+  data: string
 }
 
 export function CategoryBarCard({
