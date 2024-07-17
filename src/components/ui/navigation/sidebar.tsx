@@ -16,7 +16,7 @@ import { WorkspacesDropdownDesktop } from "./SidebarWorkspacesDropdown"
 import { UserProfileDesktop } from "./UserProfile"
 
 const navigation = [
-  { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
+  // { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
   { name: "Workspaces", href: siteConfig.baseLinks.details, icon: RiListCheck },
   {
     name: "Settings",
