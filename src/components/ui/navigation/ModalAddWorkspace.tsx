@@ -11,13 +11,9 @@ import {
 import { DropdownMenuItem } from "@/components/Dropdown"
 import { Input } from "@/components/Input"
 import { Label } from "@/components/Label"
+import { Textarea } from "@tremor/react"
 
-export const databases: {
-  label: string
-  value: string
-  description: string
-  isRecommended: boolean
-}[] = [
+export const databases = [
   {
     label: "Base performance",
     value: "base-performance",
@@ -82,23 +78,23 @@ export function ModalAddWorkspace({
                   />
                 </div>
                 <div>
-                  <Label htmlFor="starter-kit" className="font-medium">
+                  <Label htmlFor="test-key" className="font-medium">
                     Test key
                   </Label>
                   <Input
-                    id="Test-key"
-                    name="Test-key"
+                    id="test-key"
+                    name="test-key"
                     placeholder="Test-key"
                     className="mt-2"
                   />
                 </div>
                 <div className="col-span-full">
-                  <Label htmlFor="database-region" className="font-medium">
+                  <Label htmlFor="repo-url" className="font-medium">
                     Github Repository URL
                   </Label>
                   <Input
                     id="repo-url"
-                    name="repo-rl"
+                    name="repo-url"
                     placeholder="Github Repository URL"
                     className="mt-2"
                   />
@@ -108,7 +104,7 @@ export function ModalAddWorkspace({
                   </p> */}
                 </div>
                 <div className="col-span-full">
-                  <Label htmlFor="database-region" className="font-medium">
+                  <Label htmlFor="github-key" className="font-medium">
                     Github Secret Key/Token
                   </Label>
                   <Input
@@ -118,44 +114,20 @@ export function ModalAddWorkspace({
                     placeholder="Github Secret Key/Token"
                     className="mt-2"
                   />
-                  {/* <p className="mt-2 text-xs text-gray-500">
-                    For best performance, choose a region closest to your
-                    application.
-                  </p> */}
+                </div>
+                <div className="col-span-full">
+                  <Label htmlFor="description" className="font-medium">
+                    Description
+                  </Label>
+                  <Textarea
+                    id="description"
+                    name="description"
+                    rows={3}
+                    placeholder="Description"
+                    className="mt-2 rounded-md"
+                  />
                 </div>
               </div>
-              {/* <div className="mt-4">
-                <Label htmlFor="database" className="font-medium">
-                  Database configuration
-                </Label>
-                <RadioCardGroup
-                  defaultValue={databases[0].value}
-                  className="mt-2 grid grid-cols-1 gap-4 text-sm md:grid-cols-2"
-                >
-                  {databases.map((database) => (
-                    <RadioCardItem key={database.value} value={database.value}>
-                      <div className="flex items-start gap-3">
-                        <RadioCardGroupIndicator className="mt-0.5" />
-                        <div>
-                          {database.isRecommended ? (
-                            <div className="flex items-center gap-2">
-                              <span className="leading-5">
-                                {database.label}
-                              </span>
-                              <Badge>Recommended</Badge>
-                            </div>
-                          ) : (
-                            <span>{database.label}</span>
-                          )}
-                          <p className="mt-1 text-xs text-gray-500">
-                            1/8 vCPU, 1 GB RAM
-                          </p>
-                        </div>
-                      </div>
-                    </RadioCardItem>
-                  ))}
-                </RadioCardGroup>
-              </div> */}
             </DialogHeader>
             <DialogFooter className="mt-6">
               <DialogClose asChild>

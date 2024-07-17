@@ -1,4 +1,5 @@
 import Image from "next/image"
+import logo from "../../../public/Exclude.png"
 
 const people = [
   {
@@ -22,23 +23,13 @@ const CombinedComponent: React.FC = () => {
         <div className="absolute left-0 top-0 m-3 flex p-3 lg:flex-1">
           <a href="/" className="m-2 p-2">
             <span className="sr-only">Your Company</span>
-            <img
-              alt="Your Company"
-              src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
-              className="h-8 w-auto"
-            />
+            <Image alt="Your Company" src={logo} className="h-8 w-auto" />
           </a>
         </div>
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.blue.100),white)] opacity-20" />
         <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-blue-600/10 ring-1 ring-blue-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
         <div className="mx-auto max-w-2xl lg:max-w-4xl">
-          <img
-            alt=""
-            src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
-            className="mx-auto"
-            width={90}
-            height={90}
-          />
+          <Image alt="" src={logo} className="mx-auto" width={90} height={90} />
           <figure className="mt-10">
             <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
               <p>
