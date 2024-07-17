@@ -3,6 +3,9 @@ import {
   LockClosedIcon,
   ServerIcon,
 } from "@heroicons/react/20/solid"
+import Image from "next/image"
+import logo from "../../../public/Exclude.png"
+import dashboard from "../../../public/assets/dashboard.png"
 
 const Example: React.FC = () => {
   return (
@@ -11,11 +14,7 @@ const Example: React.FC = () => {
         <div className="absolute left-0 top-0 m-3 flex p-3 lg:flex-1">
           <a href="/" className="m-2 p-2">
             <span className="sr-only">Your Company</span>
-            <img
-              alt="Your Company"
-              src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
-              className="h-8 w-auto"
-            />
+            <Image alt="Your Company" src={logo} className="h-8 w-auto" />
           </a>
         </div>
 
@@ -69,9 +68,9 @@ const Example: React.FC = () => {
             </div>
           </div>
           <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
-            <img
+            <Image
               alt=""
-              src="https://tailwindui.com/img/component-images/dark-project-app-screenshot.png"
+              src={dashboard}
               className="w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
             />
           </div>

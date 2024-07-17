@@ -2,7 +2,9 @@
 
 import { Dialog, DialogPanel } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
+import Image from "next/image"
 import { useState } from "react"
+import logo from "../../public/Exclude.png"
 
 const navigation = [
   { name: "Product", href: "/Product" },
@@ -23,11 +25,7 @@ const Example = () => {
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
-                alt="Your Company"
-                src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
-                className="h-8 w-auto"
-              />
+              <Image alt="Your Company" src={logo} className="h-8 w-auto" />
             </a>
           </div>
           <div className="flex lg:hidden">

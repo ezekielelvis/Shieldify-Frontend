@@ -60,12 +60,12 @@ export const WorkspacesDropdownDesktop = () => {
               className="flex aspect-square size-8 items-center justify-center rounded bg-blue-600 p-2 text-xs font-medium text-white dark:bg-blue-500"
               aria-hidden="true"
             >
-              RA
+              CA
             </span>
             <div className="flex w-full items-center justify-between gap-x-4 truncate">
               <div className="truncate">
                 <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                  Retail analytics
+                  Code Analytics
                 </p>
                 {/* <p className="whitespace-nowrap text-left text-xs text-gray-700 dark:text-gray-300">
                   Member
@@ -88,7 +88,7 @@ export const WorkspacesDropdownDesktop = () => {
             }
           }}
         >
-          <DropdownMenuGroup>
+          {/* <DropdownMenuGroup>
             <DropdownMenuLabel>
               Workspaces ({workspaces.length})
             </DropdownMenuLabel>
@@ -108,14 +108,14 @@ export const WorkspacesDropdownDesktop = () => {
                     <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
                       {workspace.name}
                     </p>
-                    {/* <p className="text-xs text-gray-700 dark:text-gray-400">
+                    <p className="text-xs text-gray-700 dark:text-gray-400">
                       {workspace.role}
-                    </p> */}
+                    </p>
                   </div>
                 </div>
               </DropdownMenuItem>
             ))}
-          </DropdownMenuGroup>
+          </DropdownMenuGroup> */}
           <DropdownMenuSeparator />
           <ModalAddWorkspace
             onSelect={handleDialogItemSelect}

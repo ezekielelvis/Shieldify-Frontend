@@ -4,6 +4,8 @@ import {
   FingerPrintIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline"
+import Image from "next/image"
+import logo from "../../../public/Exclude.png"
 
 interface Feature {
   name: string
@@ -44,11 +46,7 @@ const Example: React.FC = () => {
       <div className="m-3 flex p-3 lg:flex-1">
         <a href="/" className="m-2 p-2">
           <span className="sr-only">Your Company</span>
-          <img
-            alt="Your Company"
-            src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
-            className="h-8 w-auto"
-          />
+          <Image alt="Your Company" src={logo} className="h-8 w-auto" />
         </a>
       </div>
       <div className="mx-auto max-w-7xl bg-white px-6 py-24 sm:py-32 lg:px-8">
