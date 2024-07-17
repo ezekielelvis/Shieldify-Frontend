@@ -17,7 +17,7 @@ import { UserProfileDesktop } from "./UserProfile"
 
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
-  { name: "Details", href: siteConfig.baseLinks.details, icon: RiListCheck },
+  { name: "Workspaces", href: siteConfig.baseLinks.details, icon: RiListCheck },
   {
     name: "Settings",
     href: siteConfig.baseLinks.settings,
@@ -113,7 +113,7 @@ export function Sidebar() {
                 </li>
               ))}
             </ul>
-            <div>
+            {/* <div>
               <span className="text-xs font-medium leading-6 text-gray-500">
                 Shortcuts
               </span>
@@ -139,7 +139,7 @@ export function Sidebar() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
           </nav>
           <div className="mt-auto">
             <UserProfileDesktop />
