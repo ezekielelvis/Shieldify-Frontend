@@ -4,7 +4,7 @@ import { Dialog, DialogPanel } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import Image from "next/image"
 import { useState } from "react"
-import logo from "../../public/Exclude.png"
+import logo from "../../public/Exclude.svg"
 
 const navigation = [
   { name: "Product", href: "/Product" },

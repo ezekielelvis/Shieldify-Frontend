@@ -5,7 +5,7 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline"
 import Image from "next/image"
-import logo from "../../../public/Exclude.png"
+import logo from "../../../public/Exclude.svg"
 
 interface Feature {
   name: string
