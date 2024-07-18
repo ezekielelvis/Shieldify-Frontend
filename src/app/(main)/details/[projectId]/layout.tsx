@@ -13,7 +13,7 @@ export default async function Layer({ children }: Params) {
     <>
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <p className="text-lg font-bold">Workspace Details</p>
+          <p className="text-lg font-bold dark:text-white">Workspace Details</p>
           <p className="text-sm text-gray-600">
             Workspace Name: {data.project_key}
           </p>
@@ -22,8 +22,14 @@ export default async function Layer({ children }: Params) {
           <p className="text-sm text-gray-600">Workspace ID: {data.id}</p>
           <p className="text-sm text-gray-600">Workspace Key: {data.id}</p>
         </div>
+ 
       </div>
-      <div className="mt-5 flex gap-5 border-b">
+      <div>
+        <button className="bg-blue-700 p-2 rounded-md mt-5 text-white hover:bg-blue-500 dark:text-white">
+            Test Repository
+          </button>
+        </div>
+      <div className="mt-5 flex gap-5 border-b  dark:border-gray-600 dark:text-white">
         <Link
           href={`/details/${projectId}/overview`}
           className={cx("py-2", "text-base", "font-semibold", "cursor-pointer")}

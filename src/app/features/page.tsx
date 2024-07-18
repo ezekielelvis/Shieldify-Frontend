@@ -4,7 +4,7 @@ import {
   ServerIcon,
 } from "@heroicons/react/20/solid"
 import Image from "next/image"
-import logo from "../../../public/Exclude.png"
+import logo from "../../../public/Exclude.svg"
 import dashboard from "../../../public/assets/dashboard.png"
 
 const Example: React.FC = () => {

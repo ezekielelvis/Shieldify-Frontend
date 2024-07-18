@@ -1,23 +1,21 @@
 "use client"
 
 import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
 } from "@/components/ui/Card"
 import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
+    ChartConfig,
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
 } from "@/components/ui/charts"
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -39,18 +37,16 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function DashboardProgressBarCard() {
+export function Linechart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Area Chart - Legend</CardTitle>
-        <CardDescription>
-          Showing total visitors for the last 6 months
-        </CardDescription>
+        <CardTitle>Line Chart - Multiple</CardTitle>
+        <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
-          <AreaChart
+        <ChartContainer config={chartConfig} className="my-5">
+          <LineChart
             accessibilityLayer
             data={chartData}
             margin={{
@@ -66,28 +62,22 @@ export function DashboardProgressBarCard() {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 3)}
             />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Area
-              dataKey="mobile"
-              type="natural"
-              fill="var(--color-mobile)"
-              fillOpacity={0.4}
-              stroke="var(--color-mobile)"
-              stackId="a"
-            />
-            <Area
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <Line
               dataKey="desktop"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
+              type="monotone"
               stroke="var(--color-desktop)"
-              stackId="a"
+              strokeWidth={2}
+              dot={false}
             />
-            <ChartLegend content={<ChartLegendContent />} />
-          </AreaChart>
+            <Line
+              dataKey="mobile"
+              type="monotone"
+              stroke="var(--color-mobile)"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
         </ChartContainer>
       </CardContent>
       <CardFooter>
@@ -97,7 +87,7 @@ export function DashboardProgressBarCard() {
               Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
             </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
+              Showing total visitors for the last 6 months
             </div>
           </div>
         </div>

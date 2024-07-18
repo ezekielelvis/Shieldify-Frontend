@@ -4,14 +4,13 @@ import { cx, focusRing } from "@/lib/utils"
 import {
   RiLinkM,
   RiListCheck,
-  RiSettings5Line,
-  RiHome2Line,
+  RiSettings5Line
 } from "@remixicon/react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import logo from "../../../../public/logo_name.png"
+import logo from "../../../../public/Exclude.svg"
 import { WorkspacesDropdownDesktop } from "./SidebarWorkspacesDropdown"
 import { UserProfileDesktop } from "./UserProfile"
 
@@ -27,25 +26,25 @@ const navigation = [
 
 const shortcuts = [
   {
-    name: "Add new user",
+    name: "Add new workspace",
     href: "#",
     icon: RiLinkM,
   },
-  {
-    name: "Workspace usage",
-    href: "#",
-    icon: RiLinkM,
-  },
-  {
-    name: "Cost spend control",
-    href: "#",
-    icon: RiLinkM,
-  },
-  {
-    name: "Overview – Rows written",
-    href: "#",
-    icon: RiLinkM,
-  },
+  // {
+  //   name: "Workspace usage",
+  //   href: "#",
+  //   icon: RiLinkM,
+  // },
+  // {
+  //   name: "Cost spend control",
+  //   href: "#",
+  //   icon: RiLinkM,
+  // },
+  // {
+  //   name: "Overview – Rows written",
+  //   href: "#",
+  //   icon: RiLinkM,
+  // },
 ] as const
 
 const user = {
@@ -113,7 +112,7 @@ export function Sidebar() {
                 </li>
               ))}
             </ul>
-            {/* <div>
+            <div>
               <span className="text-xs font-medium leading-6 text-gray-500">
                 Shortcuts
               </span>
@@ -139,7 +138,7 @@ export function Sidebar() {
                   </li>
                 ))}
               </ul>
-            </div> */}
+            </div>
           </nav>
           <div className="mt-auto">
             <UserProfileDesktop />
@@ -149,7 +148,10 @@ export function Sidebar() {
       {/* top navbar (right side) */}
       <div className="flex flex-col lg:ml-72">
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-4 shadow-sm dark:border-gray-800 dark:bg-gray-950">
-          <Image src={logo} alt="Logo" width={90} height={90} />
+          <div className="flex flex-row justify-center items-center">
+          <Image src={logo} alt="Logo" width={35} height={35} />
+          <h1 className=" text-xl font-bold text-black dark:text-white mx-3 ">Shieldify</h1>
+          </div>
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium">{greeting}</span>
             {user.imageUrl ? (

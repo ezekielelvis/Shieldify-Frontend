@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import LOGO from "../../../../public/Exclude.png"
+import LOGO from "../../../../public/Exclude.svg"
 
 const LoginImage: React.FC = () => {
   return (
