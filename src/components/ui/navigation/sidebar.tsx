@@ -2,10 +2,10 @@
 import { siteConfig } from "@/app/siteConfig"
 import { cx, focusRing } from "@/lib/utils"
 import {
-  RiHome2Line,
   RiLinkM,
   RiListCheck,
   RiSettings5Line,
+  RiHome2Line,
 } from "@remixicon/react"
 import Image from "next/image"
 import Link from "next/link"
@@ -16,7 +16,7 @@ import { WorkspacesDropdownDesktop } from "./SidebarWorkspacesDropdown"
 import { UserProfileDesktop } from "./UserProfile"
 
 const navigation = [
-  { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
+  // { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
   { name: "Workspaces", href: siteConfig.baseLinks.details, icon: RiListCheck },
   {
     name: "Settings",

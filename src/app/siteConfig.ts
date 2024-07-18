@@ -7,6 +7,7 @@ export const siteConfig = {
     overview: "/overview",
     details: "/details",
     settings: "/settings",
+    projectId: "/details/:projectId",
   },
 }
 
