@@ -21,7 +21,7 @@ export const metadata: Metadata = {
       url: "",
     },
   ],
-  creator: "yourname",
+  creator: "shieldify",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -29,11 +29,6 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     siteName: siteConfig.name,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Tremor OSS Dashboard",
-    creator: "@tremorlabs",
   },
   icons: {
     icon: "/favicon.ico",

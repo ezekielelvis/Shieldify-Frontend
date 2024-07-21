@@ -1,7 +1,63 @@
+"use client"
 import Link from "next/link"
-import { FaGithub, FaGoogle } from "react-icons/fa"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { FaGithub, FaGoogle, FaSpinner } from "react-icons/fa"
 
 const SignupForm: React.FC = () => {
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+
+  const router = useRouter()
+
+  async function signup(e: React.FormEvent) {
+    e.preventDefault()
+    setError("")
+    setIsLoading(true)
+
+    try {
+      const response = await fetch(
+        "https://sandbox-backend-0f2e.onrender.com/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            accept: "application/json",
+          },
+          body: JSON.stringify({ email, password, username }),
+        },
+      )
+
+      let data
+      const text = await response.text()
+      if (text) {
+        data = JSON.parse(text)
+      } else {
+        data = {}
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || "Signup failed")
+      }
+
+      console.log("Signup successful:", data)
+      localStorage.setItem("user-info", JSON.stringify(data))
+      router.push("/details")
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError("An unexpected error occurred. Please try again.")
+      }
+      console.error("Signup error:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="flex h-full w-screen items-center justify-center">
       <div className="flex min-h-full flex-1 flex-col justify-center px-4 py-8 lg:px-6">
@@ -12,7 +68,10 @@ const SignupForm: React.FC = () => {
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-xs">
-          <form className="space-y-4" action="#" method="POST">
+          <form className="space-y-4" onSubmit={signup}>
+            {error && (
+              <div className="text-center text-sm text-red-500">{error}</div>
+            )}
             <div>
               <label
                 htmlFor="username"
@@ -26,6 +85,7 @@ const SignupForm: React.FC = () => {
                   name="username"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-5"
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
@@ -44,6 +104,7 @@ const SignupForm: React.FC = () => {
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-5"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
@@ -62,24 +123,29 @@ const SignupForm: React.FC = () => {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   required
                   className="block w-full rounded-md border-0 px-2 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-5"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
 
             <div>
-              <Link href="/details">
-
-             
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1 text-sm font-semibold leading-5 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                disabled={isLoading}
+                className="flex w-full items-center justify-center rounded-md bg-blue-600 px-3 py-1 text-sm font-semibold leading-5 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50"
               >
-                Sign Up
+                {isLoading ? (
+                  <>
+                    <FaSpinner className="mr-2 animate-spin" />
+                    Signing Up...
+                  </>
+                ) : (
+                  "Sign Up"
+                )}
               </button>
-              </Link>
             </div>
           </form>
 
