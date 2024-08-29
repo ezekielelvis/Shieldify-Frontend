@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/logo.ico",
   },
 }
 
@@ -46,6 +46,11 @@ export default function RootLayout({
         className={`${inter.className} overflow-y-scroll scroll-auto antialiased selection:bg-blue-100 selection:text-blue-700 dark:bg-gray-950`}
         suppressHydrationWarning
       >
+        <script
+          type="module"
+          defer
+          src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/spiral.js"
+        ></script>
         <div className="mx-auto w-screen">
           <div>{children}</div>
         </div>

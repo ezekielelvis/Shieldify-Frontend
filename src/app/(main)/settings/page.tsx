@@ -1,276 +1,334 @@
 "use client"
+import { UserCircleIcon } from "@heroicons/react/24/solid"
+import axios from "axios"
+import { useEffect, useRef, useState } from "react"
 
-import {
-  Button,
-  Card,
-  Dialog,
-  DialogPanel,
-  Divider,
-  Tab,
-  TabGroup,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Text,
-  TextInput,
-} from "@tremor/react"
-import { useState } from "react"
-import { FiLogOut, FiTrash2 } from "react-icons/fi"
-import { RiCloseLine } from "react-icons/ri"
+export default function Example() {
+  const [formData, setFormData] = useState({
+    username: "",
+    photo: "",
+    password: "",
+    repeatPassword: "",
+    email: "",
+  })
+  const [userId, setUserId] = useState("")
+  const [accessToken, setAccessToken] = useState("")
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [isSubmitting, setIsSubmitting] = useState<{ [key: string]: boolean }>(
+    {},
+  )
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-export default function Settings() {
-  const [selectedTab, setSelectedTab] = useState(0)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [avatar, setAvatar] = useState(null)
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("userId")
+    const storedAccessToken = localStorage.getItem("access-token")
+    if (storedUserId && storedAccessToken) {
+      setUserId(storedUserId)
+      setAccessToken(storedAccessToken)
+    } else {
+      console.error("User ID or access token not found in localStorage")
+    }
+  }, [])
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0]
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: "",
+      })
+    }
+  }
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
     if (file) {
-      setAvatar(URL.createObjectURL(file))
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          photo: reader.result as string,
+        })
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case "username":
+        return value.trim() ? "" : "Username is required"
+      case "email":
+        return value.trim()
+          ? /\S+@\S+\.\S+/.test(value)
+            ? ""
+            : "Email is invalid"
+          : "Email is required"
+      case "password":
+        return value
+          ? value.length >= 6
+            ? ""
+            : "Password must be at least 6 characters"
+          : "Password is required"
+      case "repeatPassword":
+        return value === formData.password ? "" : "Passwords do not match"
+      default:
+        return ""
+    }
+  }
+
+  const handleSubmit = async (field: string) => {
+    const error = validateField(field, formData[field as keyof typeof formData])
+    if (error) {
+      setErrors({ ...errors, [field]: error })
+      return
+    }
+
+    setIsSubmitting({ ...isSubmitting, [field]: true })
+    try {
+      const response = await axios.patch(
+        `http://localhost:3000/users/${userId}`,
+        { field, value: formData[field as keyof typeof formData] },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        },
+      )
+      console.log(`Updated ${field}:`, response.data)
+      alert(
+        `${field.charAt(0).toUpperCase() + field.slice(1)} updated successfully!`,
+      )
+    } catch (error) {
+      console.error(`Error updating ${field}:`, error)
+      alert(`An error occurred while updating ${field}. Please try again.`)
+    } finally {
+      setIsSubmitting({ ...isSubmitting, [field]: false })
+    }
+  }
+
+  const handlePhotoSubmit = async () => {
+    setIsSubmitting({ ...isSubmitting, photo: true })
+    try {
+      const response = await axios.patch(
+        `http://localhost:3000/users/${userId}`,
+        { field: "avatar", value: formData.photo },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        },
+      )
+      console.log("Updated photo:", response.data)
+      alert("Photo updated successfully!")
+    } catch (error) {
+      console.error("Error updating photo:", error)
+      alert("An error occurred while updating photo. Please try again.")
+    } finally {
+      setIsSubmitting({ ...isSubmitting, photo: false })
     }
   }
 
   return (
-    <>
-      <div
-        className={`transition-all duration-200 ${isModalOpen ? "blur-sm" : ""}`}
-      >
-        <p className="mt-5 text-sm leading-6 text-gray-600 dark:text-gray-400">
-          Manage your personal details, workspace governance, and notifications.
-        </p>
-        <TabGroup
-          className="mt-6"
-          selectedIndex={selectedTab}
-          onChange={(index) => setSelectedTab(index)}
-        >
-          <TabList className="border-b border-gray-300 dark:border-gray-600">
-            <Tab
-              className={`text-sm ${selectedTab === 0 ? "border-b-2 border-blue-500" : ""}`}
-            >
-              Account details
-            </Tab>
-            <Tab
-              className={`text-sm ${selectedTab === 1 ? "border-b-2 border-blue-500" : ""}`}
-            >
-              Workspaces
-            </Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <div className="mt-8 space-y-8">
-                <form action="#" method="POST">
-                  <div>
-                    <h4 className="text-sm font-semibold text-gray-800 dark:text-white">
-                      Profile Picture
-                    </h4>
-                    <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
-                      Update your profile picture.
-                    </p>
-                    <div className="mt-4 flex items-center">
-                      <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-                        {avatar ? (
-                          <img
-                            src={avatar}
-                            alt="Avatar"
-                            className="h-full w-full object-cover"
-                          />
-                        ) : (
-                          <span className="flex flex-col text-sm text-gray-500 dark:text-gray-400">
-                            No
-                            <br />
-                            Image
-                          </span>
-                        )}
-                      </div>
-                      <div className="ml-4">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleAvatarChange}
-                          className="block w-full text-sm text-gray-900 file:mr-4 file:rounded-md file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-blue-700 dark:text-gray-300"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <Divider className="mt-8 border-t border-gray-300 dark:border-gray-600" />
-                  <div>
-                    <h4 className="mt-8 text-sm font-semibold text-gray-800 dark:text-white">
-                      Email
-                    </h4>
-                    <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
-                      Update your email address associated with this workspace.
-                    </p>
-                    <div className="mt-6">
-                      <label
-                        htmlFor="email"
-                        className="text-sm font-medium text-gray-800 dark:text-white"
-                      >
-                        Update email address
-                      </label>
-                      <TextInput
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder="john@company.com"
-                        className="w-full rounded-lg border border-gray-300 shadow-sm sm:max-w-md dark:border-gray-600"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="mt-6 whitespace-nowrap rounded-md bg-blue-600 p-3 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-                    >
-                      Update email
-                    </button>
-                  </div>
-                </form>
-                <Divider className="border-t border-gray-300 dark:border-gray-600" />
-                <form action="#" method="POST">
-                  <h4 className="text-sm font-semibold text-gray-800 dark:text-white">
-                    Password
-                  </h4>
-                  <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">
-                    Update your password associated with this workspace.
-                  </p>
-                  <div className="mt-6">
-                    <label
-                      htmlFor="current-password"
-                      className="text-sm font-medium text-gray-800 dark:text-white"
-                    >
-                      Current password
-                    </label>
-                    <TextInput
-                      type="password"
-                      id="current-password"
-                      name="current-password"
-                      placeholder=""
-                      className="w-full rounded-lg border border-gray-300 shadow-sm sm:max-w-md dark:border-gray-600"
-                    />
-                  </div>
-                  <div className="mt-4">
-                    <label
-                      htmlFor="new-password"
-                      className="text-sm font-medium text-gray-800 dark:text-white"
-                    >
-                      New password
-                    </label>
-                    <TextInput
-                      type="password"
-                      id="new-password"
-                      name="new-password"
-                      placeholder=""
-                      className="w-full rounded-lg border border-gray-300 shadow-sm sm:max-w-md dark:border-gray-600"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="mt-6 whitespace-nowrap rounded-md bg-blue-600 p-3 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-                  >
-                    Update password
-                  </button>
-                </form>
+    <form className="my-5">
+      <div className="space-y-12">
+        <div className="border-b border-gray-900/10 pb-12">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">
+            Profile
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-gray-600">
+            This information will be displayed publicly so be careful what you
+            share.
+          </p>
+
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Username
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 sm:max-w-md">
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="janesmith"
+                    autoComplete="username"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    value={formData.username}
+                    onChange={handleChange}
+                  />
+                </div>
+                {errors.username && (
+                  <p className="mt-2 text-sm text-red-600">{errors.username}</p>
+                )}
               </div>
-            </TabPanel>
-            <TabPanel>
-              <div className="mt-8 space-y-8">
-                <Card className="rounded-lg border border-red-500 p-4 shadow-lg">
-                  <Text className="mb-2 text-sm font-semibold text-gray-800 dark:text-white">
-                    Leave Workspace
-                  </Text>
-                  <div className="mb-4 flex items-center text-xs text-gray-600 dark:text-gray-400">
-                    <FiLogOut className="mr-2" />
-                    <span>Are you sure you want to leave the workspace?</span>
-                  </div>
-                  <Button
-                    color="red"
-                    size="sm"
-                    className="w-full rounded-lg"
-                    onClick={() => {
-                      // Handle leave workspace logic here
-                      alert("Leave workspace functionality")
-                    }}
-                  >
-                    Leave Workspace
-                  </Button>
-                </Card>
-                <Card className="rounded-lg border border-red-500 p-4 shadow-lg">
-                  <Text className="mb-2 text-sm font-semibold text-gray-800 dark:text-white">
-                    Delete Workspace
-                  </Text>
-                  <div className="mb-4 flex items-center text-xs text-gray-600 dark:text-gray-400">
-                    <FiTrash2 className="mr-2" />
-                    <span>
-                      Are you sure you want to delete the workspace? This action
-                      cannot be undone.
-                    </span>
-                  </div>
-                  <Button
-                    color="red"
-                    size="sm"
-                    className="w-full rounded-lg"
-                    onClick={() => setIsModalOpen(true)}
-                  >
-                    Delete Workspace
-                  </Button>
-                </Card>
-              </div>
-            </TabPanel>
-          </TabPanels>
-        </TabGroup>
-      </div>
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <Dialog
-            open={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            static={true}
-            className="z-[100]"
-          >
-            <DialogPanel className="mx-auto rounded-lg bg-white p-4 sm:max-w-md dark:bg-gray-800 dark:text-white">
-              <div className="absolute right-0 top-0 pr-3 pt-3">
+              <button
+                type="button"
+                className="mt-2 rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                onClick={() => handleSubmit("username")}
+                disabled={isSubmitting.username}
+              >
+                {isSubmitting.username ? "Saving..." : "Save Username"}
+              </button>
+            </div>
+
+            <div className="col-span-full">
+              <label
+                htmlFor="photo"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Photo
+              </label>
+              <div className="mt-2 flex items-center gap-x-3">
+                {formData.photo ? (
+                  <img
+                    src={formData.photo}
+                    alt="Profile"
+                    className="h-12 w-12 rounded-full object-cover"
+                  />
+                ) : (
+                  <UserCircleIcon
+                    className="h-12 w-12 text-gray-300"
+                    aria-hidden="true"
+                  />
+                )}
                 <button
                   type="button"
-                  className="rounded-tremor-small text-tremor-content-subtle hover:bg-tremor-background-subtle hover:text-tremor-content dark:text-dark-tremor-content-subtle hover:dark:bg-dark-tremor-background-subtle hover:dark:text-tremor-content p-2"
-                  onClick={() => setIsModalOpen(false)}
-                  aria-label="Close"
+                  className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  onClick={() => fileInputRef.current?.click()}
                 >
-                  <RiCloseLine
-                    className="h-5 w-5 shrink-0"
-                    aria-hidden={true}
-                  />
+                  Change
                 </button>
-              </div>
-              <form>
-                <h4 className="text-sm font-semibold text-gray-800 dark:text-white">
-                  Delete Workspace
-                </h4>
-                <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
-                  All workspace data will be permanently deleted. There is no
-                  coming back after you press delete.
-                </p>
-                <label
-                  htmlFor="delete-workspace"
-                  className="mt-6 block text-xs font-medium text-gray-800 dark:text-white"
-                >
-                  Confirm workspace test key
-                </label>
-                <TextInput
-                  id="delete-workspace"
-                  name="delete-workspace"
-                  type="text"
-                  placeholder="Workspace Test key"
-                  className="mt-2 w-full rounded-lg dark:border-gray-600 dark:bg-gray-700"
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handlePhotoChange}
+                  accept="image/*"
+                  className="hidden"
                 />
-                <button
-                  type="submit"
-                  className="mt-4 w-full whitespace-nowrap rounded-lg bg-red-500 px-4 py-2 text-center text-xs font-medium text-white shadow-lg hover:bg-red-600"
-                >
-                  Delete workspace permanently
-                </button>
-              </form>
-            </DialogPanel>
-          </Dialog>
+              </div>
+              <button
+                type="button"
+                className="mt-2 rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                onClick={handlePhotoSubmit}
+                disabled={isSubmitting.photo}
+              >
+                {isSubmitting.photo ? "Saving..." : "Save Photo"}
+              </button>
+            </div>
+          </div>
         </div>
-      )}
-    </>
+
+        <div className="border-b border-gray-900/10 pb-12">
+          <h2 className="text-base font-semibold leading-7 text-gray-900">
+            Personal Information
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-gray-600">
+            Use a permanent address where you can receive mail.
+          </p>
+
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-3">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Password
+              </label>
+              <div className="mt-2">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="new-password"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                {errors.password && (
+                  <p className="mt-2 text-sm text-red-600">{errors.password}</p>
+                )}
+              </div>
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="repeatPassword"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Repeat Password
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="repeatPassword"
+                    name="repeatPassword"
+                    type="password"
+                    autoComplete="new-password"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                    value={formData.repeatPassword}
+                    onChange={handleChange}
+                  />
+                  {errors.repeatPassword && (
+                    <p className="mt-2 text-sm text-red-600">
+                      {errors.repeatPassword}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="sm:col-span-6">
+              <button
+                type="button"
+                className="mt-2 rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                onClick={() => handleSubmit("password")}
+                disabled={isSubmitting.password}
+              >
+                {isSubmitting.password ? "Saving..." : "Save Password"}
+              </button>
+            </div>
+
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Email address
+              </label>
+              <div className="mt-2">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                {errors.email && (
+                  <p className="mt-2 text-sm text-red-600">{errors.email}</p>
+                )}
+              </div>
+              <button
+                type="button"
+                className="mt-2 rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                onClick={() => handleSubmit("email")}
+                disabled={isSubmitting.email}
+              >
+                {isSubmitting.email ? "Saving..." : "Save Email"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   )
 }

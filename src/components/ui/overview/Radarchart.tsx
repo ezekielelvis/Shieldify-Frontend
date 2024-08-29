@@ -1,6 +1,6 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
+import { useAnalysis } from "@/context/AnalysisContext"
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts"
 
 import {
@@ -12,35 +12,60 @@ import {
   CardTitle,
 } from "@/components/ui/Card"
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/charts"
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 285 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 203 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 264 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig
 
 export function Radarchart() {
+  const { analysisData } = useAnalysis()
+
+  console.log("DashboardDounutChart - Analysis Data:", analysisData)
+
+  if (!analysisData || !analysisData.sandbox?.analysis_result?.metrics) {
+    console.log("DashboardDounutChart - No metrics data available")
+    return <div>No data available</div>
+  }
+
+  const metrics = analysisData.sandbox.analysis_result.metrics || {}
+  console.log("DashboardDounutChart - Metrics:", metrics)
+
+  const chartData = [
+    {
+      metric: "Lines to cover",
+      value: parseFloat(metrics.lines_to_cover) || 0,
+    },
+    {
+      metric: "Uncovered Lines",
+      value: parseFloat(metrics.uncovered_lines) || 0,
+    },
+    {
+      metric: "Line Coverage",
+      value: parseFloat(metrics.line_coverage) || 0,
+    },
+    { metric: "Coverage", value: parseFloat(metrics.coverage) || 0 },
+    {
+      metric: "Duplication",
+      value: parseFloat(metrics.duplicated_lines_density) || 0,
+    },
+    {
+      metric: "False Positive Issues",
+      value: parseFloat(metrics.false_positive_issues) || 0,
+    },
+  ]
+
+  const chartConfig = {
+    desktop: {
+      label: "Desktop",
+      color: "hsl(var(--chart-1))",
+    },
+  }
+
   return (
     <Card>
       <CardHeader className="items-center pb-4">
-        <CardTitle>Radar Chart - Grid Circle Filled</CardTitle>
-        <CardDescription>
-          Showing total visitors for the last 6 months
-        </CardDescription>
+        <CardTitle>Quality Radar</CardTitle>
+        <CardDescription>Overview of key quality metrics</CardDescription>
       </CardHeader>
       <CardContent className="pb-0">
         <ChartContainer
@@ -53,21 +78,19 @@ export function Radarchart() {
               className="fill-[--color-desktop] opacity-20"
               gridType="circle"
             />
-            <PolarAngleAxis dataKey="month" />
+            <PolarAngleAxis dataKey="metric" />
             <Radar
-              dataKey="desktop"
+              dataKey="value"
               fill="var(--color-desktop)"
               fillOpacity={0.5}
             />
           </RadarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="flex items-center gap-2 leading-none text-muted-foreground">
-          January - June 2024
+      <CardFooter className="flex-col items-start gap-2 text-sm">
+        <div className="flex gap-2 font-medium leading-none">
+          Overall Quality Gate:{" "}
+          {analysisData.sandbox?.analysis_result?.qualityGate.status || "N/A"}
         </div>
       </CardFooter>
     </Card>

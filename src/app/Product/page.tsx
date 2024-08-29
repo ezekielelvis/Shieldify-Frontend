@@ -15,27 +15,27 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    name: "Push to deploy",
+    name: "Cost-effective solution",
     description:
-      "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
+      "Shieldify is a free tool, making it an affordable option for startups and individual developers. By providing automated code testing and analysis without any additional costs",
     icon: CloudArrowUpIcon,
   },
   {
-    name: "SSL certificates",
+    name: "Improved code quality",
     description:
-      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.",
+      "By performing comprehensive tests and providing detailed analysis, Shieldify helps improve the overall quality of your codebase.",
     icon: LockClosedIcon,
   },
   {
-    name: "Simple queues",
+    name: "Reliable and consistent testing",
     description:
-      "Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.",
+      "The automated nature of Shieldify ensures that tests are performed consistently and accurately. This reliability helps identify issues early in the development cycle",
     icon: ArrowPathIcon,
   },
   {
-    name: "Advanced security",
+    name: "Enhanced productivity",
     description:
-      "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
+      "Shieldify automates the code testing and analysis process, allowing developers to focus on writing code rather than manually running tests and analyzing results.",
     icon: FingerPrintIcon,
   },
 ]
@@ -52,15 +52,17 @@ const Example: React.FC = () => {
       <div className="mx-auto max-w-7xl bg-white px-6 py-24 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-blue-600">
-            Deploy faster
+            Test Your Codebase
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Everything you need to deploy your app
+            Everything you need to test your code
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
-            Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
-            In mi viverra elit nunc.
+            This automated solution performs comprehensive tests on your
+            codebase, analyzing various aspects such as performance, security
+            vulnerabilities, and code quality. The results are presented in an
+            intuitive graphical format, making it easy for developers to
+            understand and address issues promptly.
           </p>
         </div>
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">

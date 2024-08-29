@@ -19,32 +19,26 @@ const SignupForm: React.FC = () => {
     setIsLoading(true)
 
     try {
-      const response = await fetch(
-        "https://sandbox-backend-0f2e.onrender.com/auth/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-          },
-          body: JSON.stringify({ email, password, username }),
+      const response = await fetch("http://localhost:3000/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "application/json",
         },
-      )
+        body: JSON.stringify({ email, password, username }),
+      })
 
-      let data
-      const text = await response.text()
-      if (text) {
-        data = JSON.parse(text)
-      } else {
-        data = {}
-      }
+      const data = await response.json()
 
       if (!response.ok) {
         throw new Error(data.message || "Signup failed")
       }
 
-      console.log("Signup successful:", data)
-      localStorage.setItem("user-info", JSON.stringify(data))
+      // Store user info and access token separately in localStorage
+      localStorage.setItem("user-info", JSON.stringify(data.user))
+      localStorage.setItem("access-token", data.access_token)
+      localStorage.setItem("userId", data.user.id)
+
       router.push("/details")
     } catch (error) {
       if (error instanceof Error) {

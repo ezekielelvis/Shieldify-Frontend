@@ -1,5 +1,8 @@
 import Image from "next/image"
 import LOGO from "../../../public/Exclude.svg"
+import Dash1 from "../../../public/Screenshot 2024-07-29 at 4.21.01 PM.png"
+import Dash2 from "../../../public/Screenshot 2024-07-29 at 4.21.42 PM.png"
+import dash3 from "../../../public/Screenshot 2024-07-29 at 4.22.05 PM.png"
 const ShieldifyDocumentation: React.FC = () => {
   return (
     <div className="flex flex-col items-center bg-gray-100 px-6 py-10">
@@ -167,6 +170,166 @@ const ShieldifyDocumentation: React.FC = () => {
           understanding. This visual representation helps you quickly identify
           areas that need improvement and prioritize issues based on their
           impact and severity.
+        </p>
+        <Image alt="Shieldify Logo" src={Dash1} className="mx-auto my-10" />
+        <Image alt="Shieldify Logo" src={Dash2} className="mx-auto mb-10" />
+
+        <Image alt="Shieldify Logo" src={dash3} className="mx-auto mb-10" />
+      </section>
+
+      <section className="mb-12 max-w-4xl">
+        <h2 className="text-2xl font-semibold text-gray-800">
+          Metrics Explained
+        </h2>
+        <p className="mt-4 text-gray-700">
+          Shieldify uses a comprehensive set of metrics to analyze your code.
+          Here's what each metric means:
+        </p>
+        <ul className="mt-4 list-inside list-disc text-gray-700">
+          <li>
+            <strong>ncloc:</strong> Number of lines of code, excluding comments
+            and blank lines.
+          </li>
+          <li>
+            <strong>complexity:</strong> Cyclomatic complexity, measuring the
+            number of linearly independent paths through the code.
+          </li>
+          <li>
+            <strong>cognitive_complexity:</strong> A measure of how difficult it
+            is to understand and maintain the code.
+          </li>
+          <li>
+            <strong>duplicated_lines_density:</strong> Percentage of duplicated
+            lines in the codebase.
+          </li>
+          <li>
+            <strong>coverage:</strong> Overall code coverage by tests.
+          </li>
+          <li>
+            <strong>line_coverage:</strong> Percentage of lines covered by
+            tests.
+          </li>
+          <li>
+            <strong>branch_coverage:</strong> Percentage of code branches
+            covered by tests.
+          </li>
+          <li>
+            <strong>bugs:</strong> Number of detected bugs or defects.
+          </li>
+          <li>
+            <strong>vulnerabilities:</strong> Number of security vulnerabilities
+            found.
+          </li>
+          <li>
+            <strong>code_smells:</strong> Issues in code that might lead to
+            deeper problems.
+          </li>
+          <li>
+            <strong>security_hotspots:</strong> Areas in the code that might
+            need security review.
+          </li>
+          <li>
+            <strong>sqale_index:</strong> An estimate of the time needed to fix
+            all maintainability issues.
+          </li>
+          <li>
+            <strong>sqale_debt_ratio:</strong> Ratio of the cost to develop the
+            software vs. the cost to fix its technical debt.
+          </li>
+          <li>
+            <strong>reliability_rating:</strong> Rating of the code's
+            reliability.
+          </li>
+          <li>
+            <strong>security_rating:</strong> Rating of the code's security.
+          </li>
+          <li>
+            <strong>test_success_density:</strong> Percentage of successful
+            tests.
+          </li>
+          <li>
+            <strong>test_failures:</strong> Number of failed tests.
+          </li>
+          <li>
+            <strong>test_errors:</strong> Number of errors encountered during
+            testing.
+          </li>
+          <li>
+            <strong>tests:</strong> Total number of tests.
+          </li>
+          <li>
+            <strong>comment_lines_density:</strong> Density of comments in the
+            code.
+          </li>
+          <li>
+            <strong>files:</strong> Number of files in the project.
+          </li>
+          <li>
+            <strong>functions:</strong> Number of functions in the code.
+          </li>
+          <li>
+            <strong>classes:</strong> Number of classes in the code.
+          </li>
+          <li>
+            <strong>new_coverage:</strong> Code coverage for new or modified
+            code.
+          </li>
+          <li>
+            <strong>new_line_coverage:</strong> Line coverage for new or
+            modified code.
+          </li>
+          <li>
+            <strong>new_branch_coverage:</strong> Branch coverage for new or
+            modified code.
+          </li>
+          <li>
+            <strong>lines_to_cover:</strong> Number of lines that should be
+            covered by tests.
+          </li>
+          <li>
+            <strong>uncovered_lines:</strong> Number of lines not covered by
+            tests.
+          </li>
+          <li>
+            <strong>security_review_rating:</strong> Rating of security review
+            status.
+          </li>
+          <li>
+            <strong>new_security_review_rating:</strong> Security review rating
+            for new or modified code.
+          </li>
+          <li>
+            <strong>new_maintainability_rating:</strong> Maintainability rating
+            for new or modified code.
+          </li>
+          <li>
+            <strong>new_reliability_rating:</strong> Reliability rating for new
+            or modified code.
+          </li>
+          <li>
+            <strong>confirmed_issues:</strong> Number of confirmed issues.
+          </li>
+          <li>
+            <strong>false_positive_issues:</strong> Number of issues marked as
+            false positives.
+          </li>
+          <li>
+            <strong>open_issues:</strong> Number of open issues.
+          </li>
+          <li>
+            <strong>reliability_remediation_effort:</strong> Estimated effort to
+            fix reliability issues.
+          </li>
+          <li>
+            <strong>security_remediation_effort:</strong> Estimated effort to
+            fix security issues.
+          </li>
+        </ul>
+        <p className="mt-4 text-gray-700">
+          These metrics provide a comprehensive view of your code's quality,
+          security, and maintainability. Shieldify uses these metrics to
+          generate detailed reports and visualizations, helping you identify
+          areas for improvement in your codebase.
         </p>
       </section>
     </div>

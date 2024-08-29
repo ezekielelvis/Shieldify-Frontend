@@ -1,7 +1,9 @@
 "use client"
-import { data } from "@/data/data"
+
+import { useAnalysis } from "@/context/AnalysisContext"
+import { motion } from "framer-motion"
 import dynamic from "next/dynamic"
-import { Suspense, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 
 const DashboardChartComposition = dynamic(
   () =>
@@ -24,14 +26,6 @@ const Kpicard = dynamic(
   { ssr: false, loading: () => <div>Loading KPI Card...</div> },
 )
 
-const DashboardCategoryBarCard = dynamic(
-  () =>
-    import("@/components/ui/overview/DashboardCategoryBarCard").then(
-      (mod) => mod.DashboardCategoryBarCard,
-    ),
-  { ssr: false, loading: () => <div>Loading Category Bar Card...</div> },
-)
-
 const DashboardFilterbar = dynamic(
   () =>
     import("@/components/ui/overview/DashboardFilterbar").then(
@@ -40,79 +34,105 @@ const DashboardFilterbar = dynamic(
   { ssr: false, loading: () => <div>Loading Filter Bar...</div> },
 )
 
-const DashboardProgressBarCard = dynamic(
-  () =>
-    import("@/components/ui/overview/DashboardProgressBarCard").then(
-      (mod) => mod.DashboardProgressBarCard,
-    ),
-  { ssr: false, loading: () => <div>Loading Progress Bar Card...</div> },
-)
-
 const Radarchart = dynamic(
   () =>
     import("@/components/ui/overview/Radarchart").then((mod) => mod.Radarchart),
-  { ssr: false, loading: () => <div>Loading Progress Bar Card...</div> },
-)
-
-const Radialchart = dynamic(
-  () =>
-    import("@/components/ui/overview/Radialchart").then(
-      (mod) => mod.Radialchart,
-    ),
-  { ssr: false, loading: () => <div>Loading Progress Bar Card...</div> },
-)
-
-const Linechart = dynamic(
-  () =>
-    import("@/components/ui/overview/Linechart").then((mod) => mod.Linechart),
-  { ssr: false, loading: () => <div>Loading Progress Bar Card...</div> },
+  { ssr: false, loading: () => <div>Loading Radar Chart...</div> },
 )
 
 const Page = () => {
-  const [test, setTest] = useState(false)
+  const [hasAnalysisData, setHasAnalysisData] = useState(false)
+  const { analysisData } = useAnalysis()
 
-  const handleTest = () => {
-    setTest((prev) => !prev)
+  useEffect(() => {
+    console.log("Current analysis data:", analysisData)
+    setHasAnalysisData(
+      !!analysisData && !!analysisData.sandbox?.analysis_result,
+    )
+  }, [analysisData])
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1,
+      },
+    },
   }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  }
+
   return (
-    <div className="my-5">
-        <div className={`${test === true ? "hidden" : "block"} flex h-[60vh] w-full items-center justify-center px-5`}>
-        <div className="no-test border px-40 py-20 border-dashed rounded-lg flex flex-col items-center justify-center">
-          <h2 className="text-2xl my-4">No Test Yet</h2>
-          <button
-            className={`mb-5 rounded-md bg-blue-700 p-2 text-white hover:bg-blue-500 dark:text-white`}
-            onClick={handleTest}
-          >
-            Test Repository
-          </button>
-        </div>
+    <div className="my-5 px-4 md:px-6 lg:px-8">
+      <div
+        className={`${
+          !hasAnalysisData ? "block" : "hidden"
+        } flex h-[60vh] w-full items-center justify-center`}
+      >
+        <motion.div
+          className="no-test flex flex-col items-center justify-center rounded-lg border border-dashed bg-white px-8 py-12 shadow-lg md:px-20 md:py-16"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="my-4 text-2xl font-semibold">No Test Yet</h2>
+          <p className="text-center text-gray-600">
+            Please run an analysis from the repository details page.
+          </p>
+        </motion.div>
       </div>
-      <div className={`container ${test === true ? "block" : "hidden"}`}>
-        <Suspense fallback={<div>Loading page content...</div>}>
-          <div className="mb-5">
+      <motion.div
+        className={`container mx-auto ${hasAnalysisData ? "block" : "hidden"}`}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <Suspense
+          fallback={
+            <div className="py-8 text-center">Loading page content...</div>
+          }
+        >
+          <motion.div className="mb-5" variants={itemVariants}>
             <Kpicard />
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          <Linechart />
-            {/* <DashboardDounutChart /> */}
-            <DashboardChartComposition />
+            <motion.div
+              className="overflow-hidden rounded-lg bg-white shadow-lg"
+              variants={itemVariants}
+            >
+              <DashboardDounutChart />
+            </motion.div>
+            <motion.div
+              className="overflow-hidden rounded-lg bg-white shadow-lg"
+              variants={itemVariants}
+            >
+              <DashboardChartComposition />
+            </motion.div>
           </div>
-
-          {/* <div className='my-5'>
-          <DashboardCategoryBarCard />
-        </div> */}
 
           <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-            <DashboardFilterbar />
-            <DashboardProgressBarCard />
-          </div>
-
-          <div className="mt-5 grid grid-cols-2 gap-">
-          {/* <Linechart /> */}
+            <motion.div
+              className="overflow-hidden rounded-lg bg-white shadow-lg"
+              variants={itemVariants}
+            >
+              <DashboardFilterbar />
+            </motion.div>
+            <motion.div
+              className="overflow-hidden rounded-lg bg-white shadow-lg"
+              variants={itemVariants}
+            >
+              <Radarchart />
+            </motion.div>
           </div>
         </Suspense>
-      </div>
+      </motion.div>
     </div>
   )
 }

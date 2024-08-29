@@ -1,6 +1,6 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
+import { useAnalysis } from "@/context/AnalysisContext"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
 
 import {
@@ -17,35 +17,67 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/charts"
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-  label: {
-    color: "hsl(var(--background))",
-  },
-} satisfies ChartConfig
 
 export function DashboardFilterbar() {
+  const { analysisData } = useAnalysis()
+
+  console.log("DashboardDounutChart - Analysis Data:", analysisData)
+
+  if (!analysisData || !analysisData.sandbox?.analysis_result?.metrics) {
+    console.log("DashboardDounutChart - No metrics data available")
+    return <div>No data available</div>
+  }
+
+  const metrics = analysisData.sandbox.analysis_result.metrics || {}
+  console.log("DashboardDounutChart - Metrics:", metrics)
+
+  const chartData = [
+    {
+      name: "Reliability",
+      value: parseFloat(metrics.reliability_rating) || 0,
+    },
+    {
+      name: "Security",
+      value: parseFloat(metrics.security_rating) || 0,
+    },
+    {
+      name: "Security Review",
+      value: parseFloat(metrics.security_review_rating) || 0,
+    },
+    {
+      name: "Comment Density",
+      value: parseFloat(metrics.comment_lines_density) || 0,
+    },
+    {
+      name: "Duplication",
+      value: parseFloat(metrics.duplicated_lines_density) || 0,
+    },
+    {
+      name: "Maintainability Ratio",
+      value: parseFloat(metrics.sqale_debt_ratio) || 0,
+    },
+    {
+      name: "Security Recommendation",
+      value: parseFloat(metrics.security_remediation_effort) || 0,
+    },
+    {
+      name: "Reliability Recommendation",
+      value: parseFloat(metrics.reliability_remediation_effort) || 0,
+    },
+  ]
+
+  const chartConfig = {
+    desktop: {
+      label: "Desktop",
+      color: "hsl(var(--chart-1))",
+    },
+  } satisfies ChartConfig
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart - Custom Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Quality Metrics And Densities</CardTitle>
+        <CardDescription>Key quality indicators</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -59,34 +91,31 @@ export function DashboardFilterbar() {
           >
             <CartesianGrid horizontal={false} />
             <YAxis
-              dataKey="month"
+              dataKey="name"
               type="category"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
               hide
             />
-            <XAxis dataKey="desktop" type="number" hide />
+            <XAxis dataKey="value" type="number" hide />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
             <Bar
-              dataKey="desktop"
+              dataKey="value"
               layout="vertical"
               fill="var(--color-desktop)"
               radius={4}
             >
               <LabelList
-                dataKey="month"
                 position="insideLeft"
                 offset={8}
                 className="fill-[--color-label]"
                 fontSize={12}
               />
               <LabelList
-                dataKey="desktop"
                 position="right"
                 offset={8}
                 className="fill-foreground"
@@ -98,10 +127,8 @@ export function DashboardFilterbar() {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Overall Quality Gate:{" "}
+          {analysisData.sandbox?.analysis_result?.qualityGate.status || "N/A"}
         </div>
       </CardFooter>
     </Card>

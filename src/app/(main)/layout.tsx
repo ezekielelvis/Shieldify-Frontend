@@ -1,7 +1,6 @@
 "use client"
 
 import { Sidebar } from "@/components/ui/navigation/sidebar"
-import { ThemeProvider } from "next-themes"
 import { createContext, useState } from "react"
 interface HomePageProps {
   children: React.ReactNode
@@ -22,12 +21,10 @@ const HomeLayout = ({ children }: HomePageProps) => {
   }
   return (
     <div className="mx-auto max-w-screen-2xl">
-      <ThemeProvider defaultTheme="light" attribute="class">
-        <Sidebar />
-        <Tab.Provider value={{ tab, handleTab }}>
-          <main className="lg:pl-72">{children}</main>
-        </Tab.Provider>
-      </ThemeProvider>
+      <Sidebar />
+      <Tab.Provider value={{ tab, handleTab }}>
+        <main className="lg:pl-72">{children}</main>
+      </Tab.Provider>
     </div>
   )
 }

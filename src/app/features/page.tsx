@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/20/solid"
 import Image from "next/image"
 import logo from "../../../public/Exclude.svg"
-import dashboard from "../../../public/assets/dashboard.png"
+import dashboard from "../../../public/assets/dashboard01.png"
 
 const Example: React.FC = () => {
   return (
@@ -54,15 +54,15 @@ const Example: React.FC = () => {
             <div className="lg:pr-4">
               <div className="lg:max-w-lg">
                 <p className="text-blue -600 text-base font-semibold leading-7">
-                  Deploy faster
+                  Test Your Codebase
                 </p>
                 <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                   A better workflow
                 </h1>
                 <p className="mt-6 text-xl leading-8 text-gray-700">
-                  Aliquet nec orci mattis amet quisque ullamcorper neque, nibh
-                  sem. At arcu, sit dui mi, nibh dui, diam eget aliquam. Quisque
-                  id at vitae feugiat egestas.
+                  This automated solution performs comprehensive tests on your
+                  codebase, analyzing various aspects such as performance,
+                  security vulnerabilities, and code quality.
                 </p>
               </div>
             </div>
@@ -78,12 +78,9 @@ const Example: React.FC = () => {
             <div className="lg:pr-4">
               <div className="max-w-xl text-base leading-7 text-gray-700 lg:max-w-lg">
                 <p>
-                  Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget
-                  risus enim. Mattis mauris semper sed amet vitae sed turpis id.
-                  Id dolor praesent donec est. Odio penatibus risus viverra
-                  tellus varius sit neque erat velit. Faucibus commodo massa
-                  rhoncus, volutpat. Dignissim sed eget risus enim. Mattis
-                  mauris semper sed amet vitae sed turpis id.
+                  Our automation ensures a consistent and reliable development
+                  process, reducing errors, improving code quality, and
+                  enhancing team collaboration.
                 </p>
                 <ul role="list" className="mt-8 space-y-8 text-gray-600">
                   <li className="flex gap-x-3">
@@ -93,11 +90,12 @@ const Example: React.FC = () => {
                     />
                     <span>
                       <strong className="font-semibold text-gray-900">
-                        Push to deploy.
+                        Cost-effective solution
                       </strong>{" "}
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Maiores impedit perferendis suscipit eaque, iste dolor
-                      cupiditate blanditiis ratione.
+                      Shieldify is a free tool, making it an affordable option
+                      for startups and individual developers. By providing
+                      automated code testing and analysis without any additional
+                      costs
                     </span>
                   </li>
                   <li className="flex gap-x-3">
@@ -107,10 +105,11 @@ const Example: React.FC = () => {
                     />
                     <span>
                       <strong className="font-semibold text-gray-900">
-                        SSL certificates.
+                        Improved code quality
                       </strong>{" "}
-                      Anim aute id magna aliqua ad ad non deserunt sunt. Qui
-                      irure qui lorem cupidatat commodo.
+                      By performing comprehensive tests and providing detailed
+                      analysis, Shieldify helps improve the overall quality of
+                      your codebase.
                     </span>
                   </li>
                   <li className="flex gap-x-3">
@@ -120,30 +119,29 @@ const Example: React.FC = () => {
                     />
                     <span>
                       <strong className="font-semibold text-gray-900">
-                        Database backups.
+                        Metrics
                       </strong>{" "}
-                      Ac tincidunt sapien vehicula erat auctor pellentesque
-                      rhoncus. Et magna sit morbi lobortis.
+                      By analyzing various aspects of your codebase, Shieldify
+                      provides insights into your codebase's performance,
+                      security vulnerabilities, and code quality, making it
+                      easier to identify and address issues.
                     </span>
                   </li>
                 </ul>
                 <p className="mt-8">
-                  Et vitae blandit facilisi magna lacus commodo. Vitae sapien
-                  duis odio id et. Id blandit molestie auctor fermentum
-                  dignissim. Lacus diam tincidunt ac cursus in vel. Mauris
-                  varius vulputate et ultrices hac adipiscing egestas. Iaculis
-                  convallis ac tempor et ut. Ac lorem vel integer orci.
+                  Shildify seamlessly integrates with your GitHub repository,
+                  Shieldify virtualizes your code using Docker containers,
+                  ensuring an isolated and consistent environment for testing.
                 </p>
                 <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
-                  No server? No problem.
+                  No pipeline? No problem.
                 </h2>
                 <p className="mt-6">
-                  Id orci tellus laoreet id ac. Dolor, aenean leo, ac etiam
-                  consequat in. Convallis arcu ipsum urna nibh. Pharetra,
-                  euismod vitae interdum mauris enim, consequat vulputate nibh.
-                  Maecenas pellentesque id sed tellus mauris, ultrices mauris.
-                  Tincidunt enim cursus ridiculus mi. Pellentesque nam sed
-                  nullam sed diam turpis ipsum eu a sed convallis diam.
+                  Shieldify does not need a CI/CD pipeline to work it is about
+                  we can test code with a button, allowing you to run automated
+                  tests and analysis directly from your repository. Simply
+                  enable Shieldify in your GitHub repository settings and follow
+                  the provided instructions to set up the integration.
                 </p>
               </div>
             </div>

@@ -1,7 +1,7 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { useAnalysis } from "@/context/AnalysisContext"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 import {
   Card,
@@ -12,59 +12,74 @@ import {
   CardTitle,
 } from "@/components/ui/Card"
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/charts"
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig
 
 export function DashboardChartComposition() {
+  const { analysisData } = useAnalysis()
+
+  console.log("DashboardDounutChart - Analysis Data:", analysisData)
+
+  if (!analysisData || !analysisData.sandbox?.analysis_result?.metrics) {
+    console.log("DashboardDounutChart - No metrics data available")
+    return <div>No data available</div>
+  }
+
+  const metrics = analysisData.sandbox.analysis_result.metrics || {}
+  console.log("DashboardDounutChart - Metrics:", metrics)
+
+  const chartData = [
+    { name: "Open Issues", value: parseInt(metrics.open_issues) || 0 },
+    { name: "Functions", value: parseInt(metrics.functions) || 0 },
+    { name: "Complexity", value: parseInt(metrics.complexity) || 0 },
+    { name: "Files", value: parseInt(metrics.files) || 0 },
+    { name: "Sqale Index", value: parseInt(metrics.sqale_index) || 0 },
+    {
+      name: "Cognitive Complexity",
+      value: parseInt(metrics.cognitive_complexity) || 0,
+    },
+  ]
+
+  const chartConfig = {
+    desktop: {
+      label: "Desktop",
+      color: "hsl(var(--chart-1))",
+    },
+  }
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Code Composition</CardTitle>
+        <CardDescription>
+          Lines of Code, Functions, Complexity, and Files
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="name"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
             />
+            <YAxis />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8} />
+            <Bar dataKey="value" fill="var(--color-desktop)" radius={8} />
           </BarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Overall Quality Gate:{" "}
+          {analysisData.sandbox?.analysis_result?.qualityGate.status || "N/A"}
         </div>
       </CardFooter>
     </Card>

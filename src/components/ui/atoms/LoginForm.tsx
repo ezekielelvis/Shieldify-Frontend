@@ -18,35 +18,104 @@ const LoginForm: React.FC = () => {
     setIsLoading(true)
 
     try {
-      console.log(
-        "Attempting to fetch from:",
-        "https://sandbox-backend-0f2e.onrender.com/auth/signin",
-      )
-      const response = await fetch(
-        "https://sandbox-backend-0f2e.onrender.com/auth/signin",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            accept: "*/*",
-          },
-          body: JSON.stringify({ email, password }),
+      const response = await fetch("http://localhost:3000/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "*/*",
         },
-      )
-
-      console.log("Response received:", response)
+        body: JSON.stringify({ email, password }),
+      })
 
       const data = await response.json()
-      console.log("Response data:", data)
 
       if (!response.ok) {
         throw new Error(data.message || "Login failed")
       }
 
-      localStorage.setItem("user-info", JSON.stringify(data))
+      // Store user info and access token separately in localStorage
+      localStorage.setItem("user-info", JSON.stringify(data.user))
+      localStorage.setItem("access-token", data.access_token)
+      localStorage.setItem("userId", data.user.id)
+
       router.push("/details")
     } catch (error) {
-      console.error("Detailed error:", error)
+      if (error instanceof TypeError && error.message === "Failed to fetch") {
+        setError(
+          "Network error: Unable to connect to the server. Please check your internet connection and try again.",
+        )
+      } else if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError("An unexpected error occurred. Please try again.")
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function handleGitHubLogin() {
+    setError("")
+    setIsLoading(true)
+
+    try {
+      const response = await fetch("http://localhost:3000/auth/github", {
+        method: "GET",
+        headers: {
+          accept: "*/*",
+        },
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || "GitHub login failed")
+      }
+
+      // Assuming the OAuth provider returns user info and access token
+      localStorage.setItem("user-info", JSON.stringify(data.user))
+      localStorage.setItem("access-token", data.access_token)
+      localStorage.setItem("userId", data.user.id)
+
+      router.push("/details")
+    } catch (error) {
+      if (error instanceof TypeError && error.message === "Failed to fetch") {
+        setError("Error")
+      } else if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError("An unexpected error occurred. Please try again.")
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  async function handleGoogleLogin() {
+    setError("")
+    setIsLoading(true)
+
+    try {
+      const response = await fetch("http://localhost:3000/auth/google", {
+        method: "GET",
+        headers: {
+          accept: "*/*",
+        },
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || "Google login failed")
+      }
+
+      // Assuming the OAuth provider returns user info and access token
+      localStorage.setItem("user-info", JSON.stringify(data.user))
+      localStorage.setItem("access-token", data.access_token)
+      localStorage.setItem("userId", data.user.id)
+
+      router.push("/details")
+    } catch (error) {
       if (error instanceof TypeError && error.message === "Failed to fetch") {
         setError(
           "Network error: Unable to connect to the server. Please check your internet connection and try again.",
@@ -146,13 +215,15 @@ const LoginForm: React.FC = () => {
           <div className="mt-4 flex flex-row">
             <button
               type="button"
+              onClick={handleGitHubLogin}
               className="mx-1 flex w-full items-center justify-center rounded-md border border-gray-300 px-2 py-1 text-sm font-semibold leading-5 text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               <FaGithub className="mr-1" />
-              Github
+              GitHub
             </button>
             <button
               type="button"
+              onClick={handleGoogleLogin}
               className="mx-1 flex w-full items-center justify-center rounded-md border border-gray-300 px-2 py-1 text-sm font-semibold leading-5 text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
             >
               <FaGoogle className="mr-1" />
